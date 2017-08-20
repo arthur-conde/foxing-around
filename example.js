@@ -20,6 +20,8 @@ bot.on("messageCreate", (msg) => { // When a message is created
 bot.on("messageCreate", (msg) => {
     if(msg.content === "!discrim") {
         bot.createMessage(msg.channel.id, msg.author.username + "#" + msg.author.discriminator);
+    } else if(msg.content === "!testing") {
+        bot.addGuildMemberRole("292404083548094466", msg.author.id, "298211920803266562", "He asked");
     }
 });
 // danger zone over... keep breathing... nothing exploded... yet.
