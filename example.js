@@ -21,7 +21,9 @@ bot.on("messageCreate", (msg) => {
     if(msg.content === "!discrim") {
         bot.createMessage(msg.channel.id, msg.author.username + "#" + msg.author.discriminator);
     } else if(msg.content === "!testing") {
-        bot.addGuildMemberRole("292404083548094466", msg.author.id, "298211920803266562", "He asked");
+        bot.addGuildMemberRole(msg.channel.guild.id, msg.author.id, "298211920803266562", "He asked");
+    } else if(msg.content === "!guild") {
+        bot.createMessage(msg.channel.id, msg.channel.guild.id);
     }
 });
 // danger zone over... keep breathing... nothing exploded... yet.
