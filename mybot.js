@@ -32,3 +32,7 @@ client.on("message", (message) => {
     fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   }
 }})
+
+client.on("error", (e) => console.error(e));
+client.on("warn", (e) => console.warn(e));
+client.on("debug", (e) => console.info(e));
