@@ -16,5 +16,11 @@ bot.on("messageCreate", (msg) => { // When a message is created
         // Respond with "Ping!"
     }
 });
-
+// Souji domain below this point... things might explode any second
+bot.on("messageCreate", (msg) => {
+    if(msg.content === "!discrim") {
+        bot.createMessage(msg.channel.id, msg.author.username + "#" + msg.author.discriminator);
+    }
+});
+// danger zone over... keep breathing... nothing exploded... yet.
 bot.connect(); // Get the bot to connect to Discord
