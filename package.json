@@ -1,11 +1,7 @@
 {
   "name": "foxxo-botto",
-  "version": "0.0.1",
   "description": "I've got no clue what I'm doing.",
   "author": "Souji",
-  "bin": {
-  "module-name": "./bin/foxxo-botto"
-},
   "repository": {
   "type": "git",
   "url": "https://github.com/queezly/foxing-around"
@@ -19,5 +15,6 @@
     "ultron": ">= 1.1.0",
     "ws": ">= 2.3.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "version": "0.0.1"
 }
