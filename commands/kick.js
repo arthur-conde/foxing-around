@@ -1,4 +1,4 @@
-xports.run = (client, message, [mention, ...reason]) => {
+exports.run = (client, message, [mention, ...reason]) => {
   const modRole = message.guild.roles.find("name", "Mods");
   if (!modRole)
     return console.log("The Mods role does not exist");
