@@ -21,6 +21,7 @@ client.on("message", (message) => {
     message.channel.send("bar!");
   } else {
   if (message.content.startsWith(config.prefix + "prefix")) {
+      if(message.author.id !== config.ownerID) return;
       // Gets the prefix from the command (eg. "!prefix +" it will take the "+" from it)
       let newPrefix = message.content.split(" ").slice(1, 2)[0];
       //change the configuration in memory
