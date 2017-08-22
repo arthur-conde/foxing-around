@@ -1,10 +1,9 @@
 exports.run = (client, message, args) => {
   message.reply("command started")
-  // const modRole = message.guild.roles.find("name", "Mods");
+  const modRole = message.guild.roles.find("name", "Mods");
   message.reply("Searching for Modrole...")
   if (!modRole)
     return console.log("The Mods role does not exist");
-
   if (!message.member.roles.has(modRole.id))
     message.reply("You can't use this command.");
 
