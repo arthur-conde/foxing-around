@@ -8,7 +8,6 @@ exports.run = (client, message, [mention, ...reason]) => {
     return message.reply("Please mention a user to kick");
   } else {
   const kickMember = message.mentions.members.first();
-    console.log(kickMember.id, kickMember.username)
     if (message.author.id === kickMember.id) {
       return message.reply(`You can't kick yourself.`);
     }
