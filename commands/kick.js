@@ -1,5 +1,5 @@
 exports.run = (client, message, args) => {
-  return message.reply("command started")
+  message.reply("command started")
   // const modRole = message.guild.roles.find("name", "Mods");
   message.reply("Searching for Modrole...")
   if (!modRole)
