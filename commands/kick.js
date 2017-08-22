@@ -1,5 +1,7 @@
-exports.run = (client, message, [mention, ...reason]) => {
+exports.run = (client, message, args) => {
+  return message.reply("command started")
   const modRole = message.guild.roles.find("name", "Mods");
+  return message.reply("Searching for Modrole...")
   if (!modRole)
     return console.log("The Mods role does not exist");
 
@@ -11,6 +13,7 @@ exports.run = (client, message, [mention, ...reason]) => {
 
     if (!message.guild.me.hasPermission("KICK_MEMBERS"))
       return message.reply("");
+      return message.reply("you lack kicking perms")
 
     const kickMember = message.mentions.members.first();
 
