@@ -12,7 +12,7 @@ exports.run = (client, message, [mention, ...reason]) => {
       return message.reply(`You can't kick yourself.`);
     }
     if (config.ownerID === kickMember.id) {
-      return message.reply(`You can't kick ` + kickMember.displayName + ` ! -_-"`);
+      return message.reply(`You can't kick ` + message.guild.members.get("83886770768314368").displayName + ` ! -_-"`);
     }
     kickMember.kick(reason.join(" ")).then(member => {
       message.reply(`${member.user.username} was succesfully kicked.`);
