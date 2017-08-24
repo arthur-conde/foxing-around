@@ -16,15 +16,19 @@ exports.run = (client, message, [mention, ...reason]) => {
       const kickMember = message.guild.members.get(`${mention}`);
       return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} | <@${kickMember.id}> | (ID: ${kickMember.id}) was succesfully kicked.`}});
    }
-   if (message.guild.members.find("nickname",`${mention}`) !== null) {
-      const kickMember = message.guild.members.find("nickname",`${mention}`);
+   var nickUserName = message.guild.members.find(member => (member.nickname == null ? member.user.username : member.nickname) == `${mention}`);
+   if (nickUserName != null) {
+      const kickMember = nickUserName;
       return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} | <@${kickMember.id}> | (ID: ${kickMember.id}) was succesfully kicked.`}});
-   }
-   if (message.guild.members.find("displayName",`${mention}`) !== null) {
-      const kickMember = message.guild.members.find("displayName",`${mention}`);
-      return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} | <@${kickMember.id}> | (ID: ${kickMember.id}) was succesfully kicked.`}});
-   }
-    else {
+    }
+  /*  if (message.guild.members.find("nickname",`${mention}`) !== null) {
+       const kickMember = message.guild.members.find("nickname",`${mention}`);
+       return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} | <@${kickMember.id}> | (ID: ${kickMember.id}) was succesfully kicked.`}});
+   }*/ else {
     message.channel.send({embed:{color: message.guild.me.displayColor, description: `:x: Please specify a guild member`}})
    }
 };
+
+// console.log(message.guild.members.find(member => (member.nickname == null ? member.user.username : member.nickname) == `${mention}`))
+
+// console.log(message.guild.members.find(member => (member.user.username) == "Souji"))
