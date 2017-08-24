@@ -7,9 +7,7 @@ function clean(text) {
   else
       return text;
 }
-  const args = message.content.split(" ").slice(1);
-
-  if (message.content.startsWith(config.prefix + "eval")) {
+    if (message.content.startsWith(config.prefix + "eval")) {
     if(message.author.id !== config.ownerID) return;
     try {
       const code = args.join(" ");
@@ -23,5 +21,4 @@ function clean(text) {
       message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
     }
   }
-);
-}
+};
