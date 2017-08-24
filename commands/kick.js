@@ -14,7 +14,7 @@ exports.run = (client, message, [mention, ...reason]) => {
       return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:x: You can't kick ${message.guild.members.get("83886770768314368").displayName}`}});
     }
     kickMember.kick(reason.join(" ")).then(member => {
-      message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} (ID: ${kickMember.id}) was succesfully kicked.`}});
+      message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} | <@${kickMember.id}> | (ID: ${kickMember.id}) was succesfully kicked.`}});
     });
   }
 };
