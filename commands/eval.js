@@ -16,9 +16,12 @@ function clean(text) {
       if (typeof evaled !== "string")
         evaled = require("util").inspect(evaled);
 
-      message.channel.send(clean(evaled), {code:"xl"});
+      message.channel.send(
+        {embed:{color: message.guild.me.displayColor,fields:[{name:"Eval",value:`\`\`\`js\n${clean(evaled)}\n\`\`\``},{name:"Input", value:`\`\`\`\n${args.join(" ")}\`\`\``}]}});
     } catch (err) {
-      message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+      message.channel.send(
+        {embed:{color: message.guild.me.displayColor, fields:[{name:"Eval - Error", value:`\`\`\`js\n${clean(err)}\n\`\`\``},{name:"Input", value:`\`\`\`${args.join(" ")}\`\`\``}]}}
+      );
     }
   }
 };
