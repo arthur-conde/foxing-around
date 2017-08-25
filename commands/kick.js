@@ -7,14 +7,16 @@ exports.run = (client, message, [mention, ...reason]) => {
    if (message.mentions.users.size === 1) {
       const kickMember = message.mentions.members.first();
       kickMember.kick(reason.join(" ")).then(member => {
-        return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} | <@${kickMember.id}> | (ID: ${kickMember.id}) was succesfully kicked.`
+        message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} | <@${kickMember.id}> | (ID: ${kickMember.id}) was succesfully kicked.`
       }})});
+      return;
    }
    if (message.guild.members.get(`${mention}`) !== undefined) {
       const kickMember = message.guild.members.get(`${mention}`);
       kickMember.kick(reason.join(" ")).then(member => {
-        return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} | <@${kickMember.id}> | (ID: ${kickMember.id}) was succesfully kicked.`
+        message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} | <@${kickMember.id}> | (ID: ${kickMember.id}) was succesfully kicked.`
       }})});
+      return;
    }
    var nickUserName = message.guild.members.find(function (member) {
     if (member.nickname != null)
@@ -27,8 +29,9 @@ exports.run = (client, message, [mention, ...reason]) => {
 })
    if (nickUserName != null) {
      nickUserName.kick(reason.join(" ")).then(member => {
-       return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${nickUserName.displayName} | <@${nickUserName.id}> | (ID: ${nickUserName.id}) was succesfully kicked.`
+       message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${nickUserName.displayName} | <@${nickUserName.id}> | (ID: ${nickUserName.id}) was succesfully kicked.`
      }})});
+     return;
     } else {
     message.channel.send({embed:{color: message.guild.me.displayColor, description: `:x: Invalid guild member`}})
    }
