@@ -14,7 +14,6 @@ exports.run = (client, message, [mention, ...reason]) => {
    }
    var nickUserName = message.guild.members.find(member => (member.nickname != `${mention}` ? member.user.username : member.nickname) == `${mention}`);
    if (nickUserName != null) {
-      const kickMember = nickUserName;
       return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${nickUserName.displayName} | <@${nickUserName.id}> | (ID: ${nickUserName.id}) was succesfully kicked.`}});
     } else {
     message.channel.send({embed:{color: message.guild.me.displayColor, description: `:x: Invalid guild member`}})
