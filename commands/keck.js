@@ -12,7 +12,7 @@ exports.run = (client, message, [mention, ...reason]) => {
       const kickMember = message.guild.members.get(`${mention}`);
       return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${kickMember.displayName} | <@${kickMember.id}> | (ID: ${kickMember.id}) was succesfully kicked.`}});
    }
-   var nickUserName = message.guild.members.find(member => (member.nickname != `${mention}` ? member.user.username : member.nickname) == `${mention}`);
+   var nickUserName = message.guild.members.find(member => (member.nickname.toUpperCase() != `${mention}`.toUpperCase() ? member.user.username.toUpperCase() : member.nickname.toUpperCase()) == `${mention}`.toUpperCase());
    if (nickUserName != null) {
       return message.channel.send({embed:{color: message.guild.me.displayColor, description: `:white_check_mark: ${nickUserName.displayName} | <@${nickUserName.id}> | (ID: ${nickUserName.id}) was succesfully kicked.`}});
     } else {
