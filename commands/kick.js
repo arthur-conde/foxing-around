@@ -43,6 +43,7 @@ exports.run = (client, message, [mention, ...reason]) => {
     message.channel.send({embed:{color: message.guild.me.displayColor, description: `:x: Sorry <@${message.member.id}>, **${mention}** is not a valid guild member`}}).then( message => {
       message.guild.me.lastMessage.delete(6000);
     });
-    message.delete(4000);
+    message.delete(4000
+    );
    }
 };
