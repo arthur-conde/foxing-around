@@ -17,11 +17,12 @@ function clean(text) {
         evaled = require("util").inspect(evaled);
 
       message.channel.send(
-        {embed:{color: message.guild.me.displayColor,fields:[{name:"Eval",value:`\`\`\`js\n${clean(evaled)}\n\`\`\``},{name:"Input", value:`\`\`\`\n${args.join(" ")}\`\`\``}]}});
+        {embed:{color: message.guild.me.displayColor, description:`As you wish, <@${message.member.id}>:`, fields:[{name:"Evaluation",value:`\`\`\`js\n${clean(evaled)}\n\`\`\``},{name:"Input", value:`\`\`\`\n${args.join(" ")}\`\`\``}]}});
     } catch (err) {
       message.channel.send(
-        {embed:{color: message.guild.me.displayColor, fields:[{name:"Eval - Error", value:`\`\`\`js\n${clean(err)}\n\`\`\``},{name:"Input", value:`\`\`\`${args.join(" ")}\`\`\``}]}}
+        {embed:{color: message.guild.me.displayColor, fields:[{name:"Evaluation - Error", value:`\`\`\`js\n${clean(err)}\n\`\`\``},{name:"Input", value:`\`\`\`${args.join(" ")}\`\`\``}]}}
       );
     }
   }
+  message.delete(4000);
 };
