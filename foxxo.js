@@ -16,7 +16,7 @@ fs.readdir("./events/", (err, files) => {
 
 client.on("message", message => {
   if (message.author.bot) return; // Ignores any messages written by a bot
-  if(message.content.indexOf(config.prefix) !== 0) return; // Ignores any messagess missing the prefix
+  if (message.content.indexOf(config.prefix) !== 0) return; // Ignores any messagess missing the prefix
 
   // This is the best way to define args. Trust me.
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g); // Removes the prefix then splits the message content by space
