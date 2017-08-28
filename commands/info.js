@@ -316,7 +316,7 @@ exports.run = (client, message, [mention, ...options]) => {
           },
           {
             name: `Created At`,
-            value: `online: ${infoRole.createdAt}`,
+            value: `${infoRole.createdAt}`,
             inline: false
           },
           {
