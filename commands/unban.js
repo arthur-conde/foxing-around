@@ -31,6 +31,7 @@ exports.run = (client, message, [mention, ...reason]) => {
   }
   message.guild.unban(`${mention}`).
   then(message => {
+      console.log(`message inside then() ${message}`)
       message.channel.send({
         embed: {
           color: message.guild.me.displayColor,
