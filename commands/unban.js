@@ -32,14 +32,15 @@ exports.run = (client, message, [mention, ...reason]) => {
   const unbanMember = client.users.get(`${mention}`)
 
   console.log(unbanMember);
-  message.guild.unban(`${mention}`).then(
+  message.guild.unban(`${mention}`).
+  then(member => {
       message.channel.send({
         embed: {
           color: message.guild.me.displayColor,
           description: `:white_check_mark: ${mention} was succesfully unbanned.`
         }
-      });
-    )
+      })
+    })
     .catch(
       message.channel.send({
         embed: {
@@ -49,6 +50,6 @@ exports.run = (client, message, [mention, ...reason]) => {
       })
       .then(message => {
         message.guild.me.lastMessage.delete(6000);
-      }); message.delete(4000);*/
+      }); message.delete(4000);
     )
 };
