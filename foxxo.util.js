@@ -6,5 +6,3 @@ function createEmbed(color, message) {
         }
     };
 }
-
-exports.createEmbed = (color, message) => createEmbed(color, message);
