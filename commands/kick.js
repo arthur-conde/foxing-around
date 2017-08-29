@@ -1,6 +1,18 @@
 exports.run = (client, message, [mention, ...reason]) => {
   const config = require("../config.json");
 
+  if (!mention) {
+    message.channel.send({
+      embed: {
+        color: message.guild.me.displayColor,
+        description: `:x: <@${message.member.id}>, please provide a guild member to kick`
+      }
+    }).then(message => {
+      message.guild.me.lastMessage.delete(6000);
+    });
+    message.delete(4000);
+    return;
+  }
   if (!message.guild.me.hasPermission("KICK_MEMBERS")) {
     message.channel.send({
       embed: {

@@ -1,5 +1,17 @@
 exports.run = (client, message, [mention, ...reason]) => {
   const config = require("../config.json");
+  if (!mention) {
+    message.channel.send({
+      embed: {
+        color: message.guild.me.displayColor,
+        description: `:x: <@${message.member.id}>, please provide a guild member to ban`
+      }
+    }).then(message => {
+      message.guild.me.lastMessage.delete(6000);
+    });
+    message.delete(4000);
+    return;
+  }
   if (!message.guild.me.hasPermission("BAN_MEMBERS")) {
     message.channel.send({
       embed: {
@@ -43,25 +55,27 @@ exports.run = (client, message, [mention, ...reason]) => {
     message.delete(4000);
     return;
   }
-  var nickUserName = message.guild.members.find(function(member) {
-    if (member.nickname != null) {
-      if (member.nickname.toUpperCase() == mention.toUpperCase())
+  if (mention) {
+    var nickUserName = message.guild.members.find(function(member) {
+      if (member.nickname != null) {
+        if (member.nickname.toUpperCase() == mention.toUpperCase())
+          return true;
+      }
+      if (member.user.username.toUpperCase() == mention.toUpperCase())
         return true;
+    })
+    if (nickUserName != null) {
+      nickUserName.ban(reason.join(" ")).then(member => {
+        message.channel.send({
+          embed: {
+            color: message.guild.me.displayColor,
+            description: `:white_check_mark: <@${message.member.id}>, ${nickUserName.displayName} | <@${nickUserName.id}> | (ID: ${nickUserName.id}) was succesfully banned.`
+          }
+        })
+      });
+      message.delete(4000);
+      return;
     }
-    if (member.user.username.toUpperCase() == mention.toUpperCase())
-      return true;
-  })
-  if (nickUserName != null) {
-    nickUserName.ban(reason.join(" ")).then(member => {
-      message.channel.send({
-        embed: {
-          color: message.guild.me.displayColor,
-          description: `:white_check_mark: <@${message.member.id}>, ${nickUserName.displayName} | <@${nickUserName.id}> | (ID: ${nickUserName.id}) was succesfully banned.`
-        }
-      })
-    });
-    message.delete(4000);
-    return;
   } else {
     message.channel.send({
       embed: {
