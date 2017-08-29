@@ -1,7 +1,14 @@
 exports.run = (client, message, [mention, ...reason]) => {
+    
     const config = require("../config.json");
-    var util = require("../foxxo.util.js");
-    console.log(util);
+    var util = null;
+    try {
+        util = require("../foxxo.util.js");
+        console.log(util);
+    }
+    catch(err) {
+        console.error(err);
+    }
 
     if (!mention) {
         message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, please provide a guild member to ban`))
