@@ -29,11 +29,8 @@ exports.run = (client, message, [mention, ...reason]) => {
     message.delete(4000);
     return
   }
-  const unbanMember = client.users.get(`${mention}`)
-
-  console.log(unbanMember);
   message.guild.unban(`${mention}`).
-  then(member => {
+  then(message => {
       message.channel.send({
         embed: {
           color: message.guild.me.displayColor,
@@ -41,15 +38,16 @@ exports.run = (client, message, [mention, ...reason]) => {
         }
       })
     })
-    .catch(
+    .catch(message => {
       message.channel.send({
-        embed: {
-          color: message.guild.me.displayColor,
-          description: `:x: Sorry <@${message.member.id}>, **${mention}** is not a banned ID`
-        }
-      })
-      .then(message => {
-        message.guild.me.lastMessage.delete(6000);
-      }); message.delete(4000);
-    )
+          embed: {
+            color: message.guild.me.displayColor,
+            description: `:x: Sorry <@${message.member.id}>, **${mention}** is not a banned ID`
+          }
+        })
+        .then(message => {
+          message.guild.me.lastMessage.delete(6000);
+        });
+      message.delete(4000);
+    })
 };
