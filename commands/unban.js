@@ -29,29 +29,15 @@ exports.run = (client, message, [mention, ...reason]) => {
     message.delete(4000);
     return
   }
-  message.guild.unban(`${mention}`).
-  then(message => {
-      console.log(`message inside then() ${message}`)
+  message.guild.unban(`${mention}`)
+    .then(unbanUser => {
       message.channel.send({
         embed: {
           color: message.guild.me.displayColor,
-          description: `:white_check_mark: ${mention} was succesfully unbanned.`
+          description: `:white_check_mark: Okay <@${message.member.id}>, ${unbanUser.username}#${unbanUser.discriminator} <@${unbanUser.id}> (ID:${unbanUser.id}) was succesfully unbanned.`
         }
       })
     })
-    /*.catch(message => {
-      console.log(message);
-      message.channel.send({
-          embed: {
-            color: message.guild.me.displayColor,
-            description: `:x: Sorry <@${message.member.id}>, **${mention}** is not a banned ID`
-          }
-        })
-        .then(message => {
-          message.guild.me.lastMessage.delete(6000);
-        });
-      message.delete(4000);
-    })*/
     .catch(errorMessage => {
       console.log(errorMessage);
       message.channel.send({
@@ -63,6 +49,6 @@ exports.run = (client, message, [mention, ...reason]) => {
         .then(message => {
           message.guild.me.lastMessage.delete(6000);
         });
-      message.delete(4000);
     })
+  message.delete(4000);
 };
