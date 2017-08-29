@@ -13,7 +13,7 @@ exports.run = (client, message, [mention, ...reason]) => {
     return
   }
   if (!message.member.hasPermission("BAN_MEMBERS")) {
-    console.log(`unauthorized command invoke !ban by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.username}#${message.member.user.discriminator} || on <${mention}>`);
+    console.log(`[!!!] unauthorized command invoke !ban by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.username}#${message.member.user.discriminator} || on <${mention}>`);
     message.delete(4000);
     return
   }

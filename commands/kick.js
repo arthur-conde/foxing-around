@@ -11,12 +11,12 @@ exports.run = (client, message, [mention, ...reason]) => {
       message.guild.me.lastMessage.delete(6000);
     });
     message.delete(4000);
-    return
+    return;
   }
   if (!message.member.hasPermission("KICK_MEMBERS")) {
-    console.log(`unauthorized command invoke !kick by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.username}#${message.member.user.discriminator} || on <${mention}>`);
+    console.log(`[!!!] unauthorized command invoke !kick by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.username}#${message.member.user.discriminator} || on <${mention}>`);
     message.delete(4000);
-    return
+    return;
   }
   if (message.mentions.users.size === 1) {
     const kickMember = message.mentions.members.first();
