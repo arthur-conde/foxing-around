@@ -13,6 +13,11 @@ exports.run = (client, message, [mention, ...reason]) => {
     message.delete(4000);
     return
   }
+  if (!message.member.hasPermission("KICK_MEMBERS")) {
+    console.log(`unauthorized command invoke !kick by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.username}#${message.member.user.discriminator} || on <${mention}>`);
+    message.delete(4000);
+    return
+  }
   if (message.mentions.users.size === 1) {
     const kickMember = message.mentions.members.first();
     kickMember.kick(reason.join(" ")).then(member => {
