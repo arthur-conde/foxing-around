@@ -1,12 +1,11 @@
 exports.run = (client, message, [mention, ...reason]) => {
-    
+
     const config = require("../config.json");
     var util = null;
     try {
         util = require("../foxxo.util.js");
         console.log(util);
-    }
-    catch(err) {
+    } catch (err) {
         console.error(err);
     }
 
