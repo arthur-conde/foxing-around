@@ -42,8 +42,8 @@ exports.run = (client, message, [mention, ...reason]) => {
                     message.guild.unban(bannedUser)
                         .then(unbannedUser => {
                             message.channel.send(
-                                util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully unbanned ${unbannedUser.tag} | <@${unbannedUser.id}> |ID:${unbannedUser.id}`);
-                            )
+                                util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully unbanned ${unbannedUser.tag} | <@${unbannedUser.id}> | ID:${unbannedUser.id}`)
+                            );
                         })
                 } else {
                     message.channel.send({
