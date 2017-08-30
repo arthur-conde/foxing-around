@@ -1,10 +1,11 @@
+const util = require("../foxxo.util.js");
 exports.run = (client, message, [mention, ...reason]) => {
     const config = require("../config.json");
     if (!mention) {
         message.channel.send({
             embed: {
                 color: message.guild.me.displayColor,
-                description: `:x: <@${message.member.id}>, please provide a guild member to unban`
+                description: `:x: <@${message.member.id}>, provide a guild member to unban`
             }
         }).then(message => {
             message.guild.me.lastMessage.delete(6000);
@@ -16,7 +17,7 @@ exports.run = (client, message, [mention, ...reason]) => {
         message.channel.send({
             embed: {
                 color: message.guild.me.displayColor,
-                description: `:x: Sorry <@${message.member.id}>, I don't have the permissions to do that`
+                description: `:x: <@${message.member.id}>, I don't have the permissions to do that`
             }
         }).then(message => {
             message.guild.me.lastMessage.delete(6000);
@@ -40,18 +41,15 @@ exports.run = (client, message, [mention, ...reason]) => {
                 if (bannedUser) {
                     message.guild.unban(bannedUser)
                         .then(unbannedUser => {
-                            message.channel.send({
-                                embed: {
-                                    color: message.guild.me.displayColor,
-                                    description: `:white_check_mark: Okay <@${message.member.id}>, ${unbannedUser.username}#${unbannedUser.discriminator} <@${unbannedUser.id}> (ID:${unbannedUser.id}) was succesfully unbanned.`
-                                }
-                            })
+                            message.channel.send(
+                                util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully unbanned ${unbannedUser.username}#${unbannedUser.discriminator} | <@${unbannedUser.id}> |ID:${unbannedUser.id}`);
+                            )
                         })
                 } else {
                     message.channel.send({
                             embed: {
                                 color: message.guild.me.displayColor,
-                                description: `:x: Sorry <@${message.member.id}>, **${mention}** is not a banned user`
+                                description: `:x: <@${message.member.id}>, **${mention}** is not a banned user`
                             }
                         })
                         .then(message => {
