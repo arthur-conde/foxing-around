@@ -10,7 +10,7 @@ exports.run = (client, message, [mention, ...reason]) => {
         return;
     }
     if (!message.member.hasPermission("KICK_MEMBERS")) {
-        console.log(`[!!!] unauthorized command invoke !kick by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.username}#${message.member.user.discriminator} || on <${mention}>`);
+        console.log(`[!!!] unauthorized command invoke !kick by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.tag} || on <${mention}>`);
         message.delete(4000);
         return;
     }
@@ -41,7 +41,7 @@ exports.run = (client, message, [mention, ...reason]) => {
             if (member.nickname.toUpperCase() == mention.toUpperCase())
                 return true;
         }
-        if (`${member.user.username}#${member.user.username}` == mention || member.user.username.toUpperCase() == mention.toUpperCase())
+        if (`${member.user.tag}` == mention || member.user.username.toUpperCase() == mention.toUpperCase())
             return true;
     });
     if (nickUserName != null) {

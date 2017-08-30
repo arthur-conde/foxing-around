@@ -26,7 +26,7 @@ exports.run = (client, message, [mention, ...reason]) => {
         return
     }
     if (!message.member.hasPermission("BAN_MEMBERS")) {
-        console.log(`[!!!] unauthorized command invoke !unban by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.username}#${message.member.user.discriminator} || on <${mention}>`);
+        console.log(`[!!!] unauthorized command invoke !unban by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.tag} || on <${mention}>`);
         message.delete(4000);
         return
     }
@@ -34,7 +34,7 @@ exports.run = (client, message, [mention, ...reason]) => {
         .then(
             banCollection => {
                 var bannedUser = banCollection.find(user => {
-                    if (user.id == `${mention}` || `${user.username}#${user.discriminator}` == `${mention}`) {
+                    if (user.id == `${mention}` || `${user.tag}` == `${mention}`) {
                         return user;
                     }
                 })
@@ -42,7 +42,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                     message.guild.unban(bannedUser)
                         .then(unbannedUser => {
                             message.channel.send(
-                                util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully unbanned ${unbannedUser.username}#${unbannedUser.discriminator} | <@${unbannedUser.id}> |ID:${unbannedUser.id}`);
+                                util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully unbanned ${unbannedUser.tag} | <@${unbannedUser.id}> |ID:${unbannedUser.id}`);
                             )
                         })
                 } else {
