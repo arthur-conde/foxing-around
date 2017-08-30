@@ -1,5 +1,6 @@
 const config = require("../config.json");
 const util = require("../foxxo.util.js");
+const Discord = require("discord.js");
 exports.run = (client, message, [mention, ...options]) => {
     function createUserEmbed(passedUser, message) {
         // finding out stuff to later display in the embed
@@ -183,6 +184,58 @@ exports.run = (client, message, [mention, ...options]) => {
         }
         return embed;
     }
+
+    function createChannelEmbed(infoChannel, message) {
+        // finding out stuff to later display in the embed
+        var channelOverwrites = []
+        infoChannel.permissionOverwrites.forEach((value, key) => {
+            channelOverwrites.push(`ID: ${key} | Type: ${value.type} | Deny: ${value.deny} | Allow: ${value.allow}`)
+        })
+        console.log(channelOverwrites);
+        embed = {
+            embed: {
+                color: message.guild.me.displayColor,
+                author: {
+                    name: `${message.guild.name} - Channel [${infoChannel.name}]`,
+                    icon_url: message.guild.iconURL
+                },
+                title: "ID",
+                description: `${infoChannel.id}`,
+                fields: [{
+                        name: "Name",
+                        value: `${infoChannel.name}`,
+                        inline: true
+                    },
+                    {
+                        name: "Link",
+                        value: `<#${infoChannel.id}>`,
+                        inline: true
+                    },
+                    {
+                        name: "Type",
+                        value: `${infoChannel.type}`,
+                        inline: true
+                    },
+                    {
+                        name: "Position",
+                        value: `${infoChannel.position +1}`,
+                        inline: true
+                    },
+                    {
+                        name: "Topic",
+                        value: `${infoChannel.topic}`,
+                        inline: false
+                    },
+                    {
+                        name: "Permission Overwrites",
+                        value: channelOverwrites.join(`\n`),
+                        inline: false
+                    }
+                ]
+            }
+        }
+        return embed;
+    }
     // If mention is guild ID or "guild" or "server"
     if (mention == `${message.guild.id}` || mention == "guild" || mention == "server") {
         // finding information to later display in embed
@@ -354,9 +407,13 @@ exports.run = (client, message, [mention, ...options]) => {
         message.channel.send(createRoleEmbed(findRole, message));
         message.delete(4000);
         return;
-
+    }
+    var findChannel = message.guild.channels.get(mention)
+    if (findChannel != null) {
+        message.channel.send(createChannelEmbed(findChannel, message));
+        message.delete(4000);
+        return;
     } else {
-        // if not, ask user to provide a different mention
         message.channel.send({
             embed: {
                 color: message.guild.me.displayColor,
