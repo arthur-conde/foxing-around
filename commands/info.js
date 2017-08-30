@@ -123,9 +123,11 @@ exports.run = (client, message, [mention, ...options]) => {
         message.delete(4000);
         return;
     }
-    // function to post userinfo
-    function postUserInfo(infoUser, message) {
+    // function to create a embed displaying userinfo
+    function createUserEmbed(passedUser, message) {
         // finding out stuff to later display in the embed
+        var infoUser = !passedUser ? message.member : passedUser;
+        console.log(infoUser);
         const isBot = infoUser.user.bot == true ? "[BOT]" : "";
         const infoUserNickname = infoUser.nickname != null ? `${infoUser.nickname}` : "None"
         const infoUserStatus = infoUser.user.presence.status.charAt(0).toUpperCase() + infoUser.user.presence.status.slice(1);
@@ -141,7 +143,7 @@ exports.run = (client, message, [mention, ...options]) => {
                 roleList.push(role.name)
             }
         });
-        message.channel.send({
+        embed = {
             embed: {
                 color: infoUser.displayColor,
                 author: {
@@ -210,7 +212,11 @@ exports.run = (client, message, [mention, ...options]) => {
                     }
                 ]
             }
-        });
+        }
+        return embed;
+    }
+    if (!mention) {
+        message.channel.send(createUserEmbed(message.member));
         message.delete(4000);
         return;
     }
