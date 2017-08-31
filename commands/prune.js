@@ -67,7 +67,6 @@ exports.run = (client, message, [amount, filter]) => {
                             .then(fetchedUser => {
                                 filterBy = fetchedUser.id;
                                 messages = messages.filter(m => m.author.id === filterBy)
-                                console.log(messages)
                                 if (messages.size > 0) {
                                     message.channel.bulkDelete(messages)
                                         .then(deletedMessages => {
@@ -87,25 +86,6 @@ exports.run = (client, message, [amount, filter]) => {
                                     message.guild.me.lastMessage.delete(6000);
                                 });
                             })
-                    }
-                    console.log(filter)
-                    console.log(filterBy);
-                    // filtering by ID is harder then expected...
-                    /*client.fetchUser(filter).then(idCheck => filterBy = idCheck).catch(e => console.log("Error while fetching: " + e))*/
-                    messages = messages.filter(m => m.author.id === filterBy)
-                    if (messages.size > 0) {
-                        console.log(messages.size)
-                        message.channel.bulkDelete(messages)
-                            .then(deletedMessages => {
-                                message.channel.send(util.createEmbed(message.guild.me.displayColor, `:put_litter_in_its_place: <@${message.member.id}> successfully deleted **${deletedMessages.size}** out of ${amount} checked messages matching: <@${filterBy}>`)).then(message => {
-                                    message.guild.me.lastMessage.delete(6000);
-                                });
-                            })
-                            .catch(console.error)
-                    } else {
-                        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **0** messages out of ${amount} checked messages matching: <@${filterBy}>`)).then(message => {
-                            message.guild.me.lastMessage.delete(6000);
-                        });
                     }
                 })
         })
