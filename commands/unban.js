@@ -39,11 +39,68 @@ exports.run = (client, message, [mention, ...reason]) => {
                     }
                 })
                 if (bannedUser) {
-                    message.guild.unban(bannedUser)
-                        .then(unbannedUser => {
-                            message.channel.send(
-                                util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully unbanned ${unbannedUser.tag} | <@${unbannedUser.id}> | ID:${unbannedUser.id}`)
-                            );
+                    // enter confirmation request here
+                    var pin = util.getRandInt(1000, 9999);
+                    const isBot = bannedUser.bot == true ? "🤖" : "";
+                    const bannedUserStatus = bannedUser.presence.status.charAt(0).toUpperCase() + bannedUser.presence.status.slice(1);
+                    const bannedUserPlaying = bannedUser.presence.game == null ? "None" : bannedUser.presence.game
+                    var bannedUserAccountAge = Math.floor((Date.now() - bannedUser.createdAt) / 1000 / 60 / 60 / 24);
+                    message.channel.send({
+                            embed: {
+                                color: 243073,
+                                title: `Confirmation needed - unban`,
+                                description: `:question: <@${message.member.id}>, is this the user you are looking for?\r\nConfirm removal of ban with pin **${pin}**, refuse with \`cancel\`\r\n`,
+                                thumbnail: {
+                                    url: bannedUser.avatarURL
+                                },
+                                fields: [{
+                                        name: `Userinformation`,
+                                        value: `**Usertag:** ${isBot} ${bannedUser.tag}\r\n**ID:** ${bannedUser.id}\r\n**Mention:** <@${bannedUser.id}>\r\n\r\n**Status:** ${bannedUserStatus}\r\n**Playing:** ${bannedUserPlaying}`,
+                                        inline: true
+                                    },
+                                    {
+                                        name: "Accountinformation",
+                                        value: `**Accountage:** ${bannedUserAccountAge}`,
+                                        inline: true
+                                    }
+                                ],
+                                footer: {
+                                    text: `Request by ${message.member.displayName} (${message.author.id})`,
+                                    icon_url: message.author.avatarURL
+                                }
+                            }
+                        })
+                        .then(msg => {
+                            msg.delete(30000)
+                            message.channel.awaitMessages(response => response.author.id === message.author.id, {
+                                    max: 1,
+                                    time: 30000,
+                                    errors: [`time`],
+                                })
+                                .then(collectedMsg => {
+                                    if (collectedMsg.first().content === `${pin}`) {
+                                        message.guild.unban(bannedUser)
+                                            .then(unbannedUser => {
+                                                message.channel.send(
+                                                    util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully unbanned ${unbannedUser.tag} | <@${unbannedUser.id}> | ID:${unbannedUser.id}`)
+                                                );
+                                            })
+                                    } else {
+                                        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, request to unban canceled`))
+                                            .then(message => {
+                                                message.guild.me.lastMessage.delete(6000);
+                                            });
+                                    }
+                                    collectedMsg.first().delete(4000)
+                                    message.delete(4000);
+                                })
+                                .catch(e => {
+                                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, request to unban canceled`))
+                                        .then(message => {
+                                            message.guild.me.lastMessage.delete(6000);
+                                        });
+                                    message.delete(0);
+                                })
                         })
                 } else {
                     message.channel.send({
