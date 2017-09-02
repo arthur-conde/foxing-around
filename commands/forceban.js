@@ -55,7 +55,6 @@ exports.run = (client, message, [mention, ...reason]) => {
                     }
                 })
                 .then(msg => {
-                    msg.delete(30000)
                     message.channel.awaitMessages(response => response.author.id === message.author.id, {
                             max: 1,
                             time: 30000,
@@ -79,6 +78,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                                         message.guild.me.lastMessage.delete(6000);
                                     });
                             }
+                            msg.delete(4000)
                             collectedMsg.first().delete(4000)
                             message.delete(4000);
                         })

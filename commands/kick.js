@@ -68,7 +68,6 @@ exports.run = (client, message, [mention, ...reason]) => {
                 }
             })
             .then(msg => {
-                msg.delete(30000)
                 message.channel.awaitMessages(response => response.author.id === message.author.id, {
                         max: 1,
                         time: 30000,
@@ -84,6 +83,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                                 });
                         }
                         collectedMsg.first().delete(4000)
+                        msg.delete(4000)
                         message.delete(4000);
                     })
                     .catch(e => {
@@ -92,6 +92,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                                 message.guild.me.lastMessage.delete(6000);
                             });
                         message.delete(0);
+                        msg.delete(4000)
                     })
             })
     }
@@ -117,12 +118,10 @@ exports.run = (client, message, [mention, ...reason]) => {
     }
     if (message.mentions.users.size === 1) {
         pinKick(message.mentions.members.first())
-        message.delete(4000);
         return;
     }
     if (message.guild.members.get(`${mention}`) !== undefined) {
         pinKick(message.guild.members.get(`${mention}`));
-        message.delete(4000);
         return;
     }
     var nickUserName = message.guild.members.find(function(member) {
@@ -135,7 +134,6 @@ exports.run = (client, message, [mention, ...reason]) => {
     });
     if (nickUserName != null) {
         pinKick(nickUserName);
-        message.delete(4000);
         return;
     } else {
         message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **${mention}** is not a valid guild member`))
