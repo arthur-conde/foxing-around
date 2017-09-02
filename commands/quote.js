@@ -8,7 +8,7 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
         .then(m => {
             msg = m
             if (msg) {
-                const isBot = msg.author.bot == true ? "[BOT]" : "";
+                const isBot = msg.author.bot == true ? "🤖" : "";
                 const isPinned = msg.pinned == true ? "📌" : "";
                 if (edits === "false") {
                     message.channel.send({
