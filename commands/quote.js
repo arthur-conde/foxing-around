@@ -13,28 +13,31 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
                 if (edits === "false") {
                     message.channel.send({
                         embed: {
-                            color: message.guild.me.displayColor,
+                            color: msg.member.displayColor,
                             author: {
-                                name: `${isPinned} ${isBot}${msg.member.displayName} (ID:${msg.author.id})`,
+                                name: `${isPinned} ${isBot}${msg.member.displayName}`,
                                 icon_url: msg.author.avatarURL
                             },
                             description: `${msg.content}`,
                             footer: {
-                                text: `${msg.createdAt.toISOString().slice(0,10)}`
+                                text: `${msg.createdAt.toISOString().slice(0,10)} at ${msg.createdAt.toISOString().slice(11,16)}`
                             }
                         }
                     })
                 } else {
+                    if (!message.member.hasPermission("ADMINISTRATOR") && message.author.id !== config.ownerID) {
+                        return;
+                    }
                     message.channel.send({
                         embed: {
-                            color: message.guild.me.displayColor,
+                            color: msg.member.displayColor,
                             author: {
-                                name: `${isPinned} ${isBot}${msg.member.displayName} (ID:${msg.author.id}) wrote..`,
+                                name: `${isPinned} ${isBot}${msg.member.displayName}`,
                                 icon_url: msg.author.avatarURL
                             },
-                            description: `${msg.edits.join("\r\n\r\n")}`,
+                            description: `_ _\r\n${msg.edits.join("\r\n")}`,
                             footer: {
-                                text: `${msg.createdAt.toISOString().slice(0,10)} | last edit: ${msg.editedAt.toISOString().slice(0,10)}`
+                                text: `${msg.createdAt.toISOString().slice(0,10)} at ${msg.createdAt.toISOString().slice(11,16)} | ${msg.editedAt == null ? "No Edits" : "last edit:" + msg.editedAt.toISOString().slice(0,10) + " at"}  ${msg.editedAt == null ? "" : msg.editedAt.toISOString().slice(11,16)}`
                             }
                         }
                     })
