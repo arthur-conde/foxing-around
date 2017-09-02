@@ -10,6 +10,12 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
             if (msg) {
                 const isBot = msg.author.bot == true ? "🤖" : "";
                 const isPinned = msg.pinned == true ? "📌" : "";
+                var msgInChannel
+                if (msg.channel.id === message.channel.id) {
+                    msgInChannel = ""
+                } else {
+                    msgInChannel = " in #" + msg.channel.name
+                }
                 if (edits === "false") {
                     message.channel.send({
                         embed: {
@@ -20,13 +26,19 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
                             },
                             description: `${msg.content}`,
                             footer: {
-                                text: `${msg.createdAt.toISOString().slice(0,10)} at ${msg.createdAt.toISOString().slice(11,16)}`
+                                text: `${msg.createdAt.toISOString().slice(0,10)} at ${msg.createdAt.toISOString().slice(11,16)}` + `${msgInChannel}`
                             }
                         }
                     })
                 } else {
                     if (!message.member.hasPermission("ADMINISTRATOR") && message.author.id !== config.ownerID) {
                         return;
+                    }
+                    var msgEditedAt
+                    if (msg.editedAt == null) {
+                        msgEditedAt = " | no edits"
+                    } else {
+                        msgEditedAt = " | last edit: " + msg.editedAt.toISOString().slice(0, 10) + " at " + msg.editedAt.toISOString().slice(11, 16)
                     }
                     message.channel.send({
                         embed: {
@@ -37,7 +49,7 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
                             },
                             description: `_ _\r\n${msg.edits.join("\r\n")}`,
                             footer: {
-                                text: `${msg.createdAt.toISOString().slice(0,10)} at ${msg.createdAt.toISOString().slice(11,16)} | ${msg.editedAt == null ? "No Edits" : "last edit:" + msg.editedAt.toISOString().slice(0,10) + " at"}  ${msg.editedAt == null ? "" : msg.editedAt.toISOString().slice(11,16)}`
+                                text: `${msg.createdAt.toISOString().slice(0,10)} at ${msg.createdAt.toISOString().slice(11,16)}` + `${msgInChannel}` + `${msgEditedAt}`
                             }
                         }
                     })
