@@ -9,6 +9,7 @@ exports.run = (client, message, [mention, ...reason]) => {
         message.delete(4000);
         return;
     }
+
     if (!message.member.hasPermission("KICK_MEMBERS")) {
         console.log(`[!!!] unauthorized command invoke !kick by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.tag} || on <${mention}>`);
         message.delete(4000);
@@ -32,9 +33,11 @@ exports.run = (client, message, [mention, ...reason]) => {
     }
     if (message.mentions.users.size === 1) {
         kickGuildMember(message.mentions.members.first())
+        return;
     }
     if (message.guild.members.get(`${mention}`) !== undefined) {
         kickGuildMember(message.guild.members.get(`${mention}`));
+        return;
     }
     var nickUserName = message.guild.members.find(function(member) {
         if (member.nickname != null) {
@@ -46,6 +49,7 @@ exports.run = (client, message, [mention, ...reason]) => {
     });
     if (nickUserName != null) {
         kickGuildMember(nickUserName);
+        return;
     } else {
         message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **${mention}** is not a valid guild member`))
             .then(message => {
@@ -53,4 +57,4 @@ exports.run = (client, message, [mention, ...reason]) => {
             });
         message.delete(4000);
     }
-};
+}

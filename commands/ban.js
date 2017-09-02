@@ -32,9 +32,11 @@ exports.run = (client, message, [mention, ...reason]) => {
     }
     if (message.mentions.users.size === 1) {
         banGuildMember(message.mentions.members.first())
+        return;
     }
     if (message.guild.members.get(`${mention}`) !== undefined) {
         banGuildMember(message.guild.members.get(`${mention}`));
+        return;
     }
     var nickUserName = message.guild.members.find(function(member) {
         if (member.nickname != null) {
@@ -47,6 +49,7 @@ exports.run = (client, message, [mention, ...reason]) => {
 
     if (nickUserName != null) {
         banGuildMember(nickUserName);
+        return;
     } else {
         message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **${mention}** is not a valid guild member`))
             .then(message => {
