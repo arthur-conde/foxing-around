@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
+const config = require("../config.json");
+const util = require("../foxxo.util.js");
 exports.run = (client, message, args) => {
-    const config = require("../config.json");
-
     function clean(text) {
         if (typeof(text) === "string")
             return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
