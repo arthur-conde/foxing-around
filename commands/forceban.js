@@ -40,12 +40,12 @@ exports.run = (client, message, [mention, ...reason]) => {
                         fields: [{
                                 name: `Userinformation`,
                                 value: `**Usertag:** ${isBot} ${forceBanMember.tag}\r\n**ID:** ${forceBanMember.id}\r\n**Mention:** <@${forceBanMember.id}>\r\n\r\n**Status:** ${forceBanMemberStatus}\r\n**Playing:** ${forceBanMemberPlaying}`,
-                                inline: true
+                                inline: false
                             },
                             {
                                 name: "Accountinformation",
                                 value: `**Accountage:** ${forceBanMemberAccountAge}`,
-                                inline: true
+                                inline: false
                             }
                         ],
                         footer: {
@@ -91,17 +91,4 @@ exports.run = (client, message, [mention, ...reason]) => {
                         })
                 })
         })
-
-    //banning
-    /*message.guild.ban(mention, `${message.member.displayName} (ID: ${message.member.id}): ` + reason.join(" "))
-        .then(forceBanMember => {
-            message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully forcebanned ${forceBanMember.tag} | <@${forceBanMember.id}> | ID: ${forceBanMember.id}`));
-        })
-        .catch(error => {
-            message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}> ${error}`))
-                .then(message => {
-                    message.guild.me.lastMessage.delete(6000);
-                });
-        })*/
-    //banning over
 };

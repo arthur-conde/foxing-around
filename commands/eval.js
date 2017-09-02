@@ -31,7 +31,11 @@ exports.run = (client, message, args) => {
                     }, {
                         name: "Input",
                         value: `\`\`\`\n${args.join(" ")}\`\`\``
-                    }]
+                    }],
+                    footer: {
+                        text: `Request by ${message.member.displayName} (${message.author.id})`,
+                        icon_url: message.author.avatarURL
+                    }
                 }
             });
         } catch (err) {
@@ -44,7 +48,11 @@ exports.run = (client, message, args) => {
                     }, {
                         name: "Input",
                         value: `\`\`\`${args.join(" ")}\`\`\``
-                    }]
+                    }],
+                    footer: {
+                        text: `Request by ${message.member.displayName} (${message.author.id})`,
+                        icon_url: message.author.avatarURL
+                    }
                 }
             });
         }

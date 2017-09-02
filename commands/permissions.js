@@ -9,13 +9,14 @@ exports.run = (client, message, args) => {
     }
     var permissionEmbed = {
         embed: {
-            author: {
-                name: `Permission parse for "${argument}" as requested by ${message.member.displayName}:`,
-                icon_url: message.author.avatarURL
-            },
+            title: `Permission parse for "${argument}"`,
             color: message.guild.me.displayColor,
             description: `_ _`,
-            fields: []
+            fields: [],
+            footer: {
+                text: `Request by ${message.member.displayName} (${message.author.id})`,
+                icon_url: message.author.avatarURL
+            }
         }
     }
     for (var i in permissions) {
@@ -25,6 +26,9 @@ exports.run = (client, message, args) => {
             inline: true
         })
     }
-    message.channel.send(permissionEmbed);
+    message.channel.send(permissionEmbed)
+        .then(message => {
+            message.guild.me.lastMessage.delete(10000);
+        });
     message.delete(4000);
 }

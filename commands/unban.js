@@ -56,12 +56,12 @@ exports.run = (client, message, [mention, ...reason]) => {
                                 fields: [{
                                         name: `Userinformation`,
                                         value: `**Usertag:** ${isBot} ${bannedUser.tag}\r\n**ID:** ${bannedUser.id}\r\n**Mention:** <@${bannedUser.id}>\r\n\r\n**Status:** ${bannedUserStatus}\r\n**Playing:** ${bannedUserPlaying}`,
-                                        inline: true
+                                        inline: false
                                     },
                                     {
                                         name: "Accountinformation",
-                                        value: `**Accountage:** ${bannedUserAccountAge}`,
-                                        inline: true
+                                        value: `**Accountage:** ${bannedUserAccountAge} day(s)`,
+                                        inline: false
                                     }
                                 ],
                                 footer: {
@@ -117,5 +117,4 @@ exports.run = (client, message, [mention, ...reason]) => {
         .catch(
             console.error
         )
-    message.delete(4000);
 };

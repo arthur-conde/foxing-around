@@ -39,7 +39,11 @@ exports.run = (client, message, [mention, args]) => {
                                 value: `${fetchedUser.createdAt}`,
                                 inline: false
                             },
-                        ]
+                        ],
+                        footer: {
+                            text: `Request by ${message.member.displayName} (${message.author.id})`,
+                            icon_url: message.author.avatarURL
+                        }
                     }
                 })
                 return;
