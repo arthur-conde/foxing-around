@@ -36,7 +36,7 @@ exports.run = (client, message, [mention, args]) => {
                             },
                             {
                                 name: "Created On",
-                                value: `${fetchedUser.createdAt}`,
+                                value: `${fetchedUser.createdAt.toISOString().slice(0,10)}`,
                                 inline: false
                             },
                         ],

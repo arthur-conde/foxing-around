@@ -87,22 +87,22 @@ exports.run = (client, message, [mention, ...options]) => {
                     },
                     {
                         name: "Created On",
-                        value: `${infoUser.user.createdAt}`,
-                        inline: false
+                        value: `${infoUser.user.createdAt.toISOString().slice(0,10)}`,
+                        inline: true
                     },
                     {
                         name: "Join Date",
-                        value: `${infoUser.joinedAt}`,
-                        inline: false
+                        value: `${infoUser.joinedAt.toISOString().slice(0,10)}`,
+                        inline: true
                     },
                     {
-                        name: `Roles [${roleListLength}]`,
+                        name: `Roles[${roleListLength}]`,
                         value: `${roleList.join(", ")}`,
                         inline: false
                     }
                 ],
                 footer: {
-                    text: `Request by ${message.member.displayName} (${message.author.id})`,
+                    text: `Request by ${message.member.displayName}(${message.author.id})`,
                     icon_url: message.author.avatarURL
                 }
             }
@@ -146,7 +146,7 @@ exports.run = (client, message, [mention, ...options]) => {
         message.channel.send({
             embed: {
                 color: message.guild.me.displayColor,
-                description: `:x: <@${message.member.id}>, can't find any information for user **${mention}**`
+                description: `:x: <@${message.member.id}>, can 't find any information for user **${mention}**`
             }
         }).then(message => {
             message.guild.me.lastMessage.delete(6000);

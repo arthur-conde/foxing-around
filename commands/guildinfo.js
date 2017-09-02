@@ -80,7 +80,7 @@ exports.run = (client, message, [mention, ...options]) => {
                 },
                 {
                     name: "Created On",
-                    value: `${message.guild.createdAt}`,
+                    value: `${message.guild.createdAt.toISOString().slice(0,10)}`,
                     inline: true
                 },
                 {

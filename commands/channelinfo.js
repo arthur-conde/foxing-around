@@ -49,6 +49,10 @@ exports.run = (client, message, [mention, ...options]) => {
                         inline: true
                     },
                     {
+                        name: "Created On:"
+                        value: `${infoChannel.createdAt.toISOString().slice(0,10)}`
+                        inline: true
+                    } {
                         name: "Topic",
                         // catch the case that no topic is set, since fields need a value
                         value: `${infoChannel.topic ? infoChannel.topic : "None"}`,

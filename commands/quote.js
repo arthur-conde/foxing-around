@@ -20,7 +20,7 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
                             },
                             description: `${msg.content}`,
                             footer: {
-                                text: `${msg.createdAt}`
+                                text: `${msg.createdAt.toISOString().slice(0,10)}`
                             }
                         }
                     })
@@ -34,7 +34,7 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
                             },
                             description: `${msg.edits.join("\r\n\r\n")}`,
                             footer: {
-                                text: `${msg.createdAt} | last edit: ${msg.editedAt}`
+                                text: `${msg.createdAt.toISOString().slice(0,10)} | last edit: ${msg.editedAt.toISOString().slice(0,10)}`
                             }
                         }
                     })
@@ -42,5 +42,4 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
             }
         })
     message.delete(4000);
-
 }

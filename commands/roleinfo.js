@@ -79,8 +79,8 @@ exports.run = (client, message, [mention, ...options]) => {
                     },
                     {
                         name: `Created At`,
-                        value: `${infoRole.createdAt}`,
-                        inline: false
+                        value: `${infoRole.createdAt.toISOString().slice(0,10)}`,
+                        inline: true
                     },
                     {
                         name: `Members [${roleMembersOnline.length}/${roleMembers.length} online]`,
