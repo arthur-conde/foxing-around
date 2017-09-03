@@ -4,23 +4,21 @@ const Discord = require("discord.js");
 exports.run = (client, message, [mention, ...options]) => {
     function createUserEmbed(passedUser, message) {
         // finding out stuff to later display in the embed
-        // default to message sender if no user is passed
-        var infoUser = !passedUser ? message.member : passedUser;
-        // check if bot
-        const isBot = infoUser.user.bot == true ? "🤖" : "";
-        const isAdmin = infoUser.hasPermission("ADMINISTRATOR") == true ? "🅰" : ""
+        // check if bot/admin
+        const isBot = passedUser.user.bot == true ? "🤖" : "";
+        const isAdmin = passedUser.hasPermission("ADMINISTRATOR") == true ? "🅰" : ""
         // check if Nickname is present, if not display "None" since value in field is required
-        const infoUserNickname = infoUser.nickname != null ? `${infoUser.nickname}` : "None"
-        // Uppercase first letter of userstatsu
-        const infoUserStatus = infoUser.user.presence.status.charAt(0).toUpperCase() + infoUser.user.presence.status.slice(1);
-        // calculate ages
-        var infoUserAccountAge = Math.floor((Date.now() - infoUser.user.createdAt) / 1000 / 60 / 60 / 24);
-        var infoUserMemberAge = Math.floor((Date.now() - infoUser.joinedAt) / 1000 / 60 / 60 / 24);
+        const passedUserNickname = passedUser.nickname != null ? `${passedUser.nickname}` : "None"
+        // Uppercase first letter of status
+        const passedUserStatus = passedUser.user.presence.status.charAt(0).toUpperCase() + passedUser.user.presence.status.slice(1);
         // display "None" if user playing status isn't set since value in field is required
-        const infoUserPlaying = infoUser.user.presence.game != null ? `${infoUser.user.presence.game.name}` : "None"
-        // rolelist, push everything BUT everyone
+        const passedUserPlaying = passedUser.user.presence.game != null ? `${passedUser.user.presence.game.name}` : "None"
+        // calculate ages
+        var passedUserAccountAge = Math.floor((Date.now() - passedUser.user.createdAt) / 1000 / 60 / 60 / 24);
+        var passedUserMemberAge = Math.floor((Date.now() - passedUser.joinedAt) / 1000 / 60 / 60 / 24);
+        // rolelist, push everything BUT everyone (guild ID = role ID)
         var roleList = [];
-        infoUser.roles.forEach(role => {
+        passedUser.roles.forEach(role => {
             if (message.guild.id == role.id) {
                 return;
             } else {
@@ -35,64 +33,64 @@ exports.run = (client, message, [mention, ...options]) => {
         // define embed
         embed = {
             embed: {
-                color: infoUser.displayColor,
+                color: passedUser.displayColor,
                 author: {
-                    name: `${isAdmin} ${isBot} ${infoUser.user.tag}`,
-                    icon_url: infoUser.user.avatarURL
+                    name: `${isAdmin} ${isBot} ${passedUser.user.tag}`,
+                    icon_url: passedUser.user.avatarURL
                 },
                 title: "ID",
-                description: `${infoUser.user.id}`,
+                description: `${passedUser.user.id}`,
                 thumbnail: {
-                    url: infoUser.user.avatarURL
+                    url: passedUser.user.avatarURL
                 },
                 fields: [{
                         name: "Mention",
-                        value: `<@${infoUser.user.id}>`,
+                        value: `<@${passedUser.user.id}>`,
                         inline: true
                     },
                     {
                         name: "Nickname",
-                        value: `${infoUserNickname}`,
+                        value: `${passedUserNickname}`,
                         inline: true
                     },
                     {
                         name: "Status",
-                        value: `${infoUserStatus}`,
+                        value: `${passedUserStatus}`,
                         inline: true
                     },
                     {
                         name: "Playing",
-                        value: `${infoUserPlaying}`,
+                        value: `${passedUserPlaying}`,
                         inline: true
                     },
                     {
                         name: "Accountage",
-                        value: `${infoUserAccountAge} day(s)`,
+                        value: `${passedUserAccountAge} day(s)`,
                         inline: true
                     },
                     {
                         name: "Memberage",
-                        value: `${infoUserMemberAge} day(s)`,
+                        value: `${passedUserMemberAge} day(s)`,
                         inline: true
                     },
                     {
                         name: `Server Deafened`,
-                        value: `${infoUser.serverDeaf}`,
+                        value: `${passedUser.serverDeaf}`,
                         inline: true
                     },
                     {
                         name: `Server Muted`,
-                        value: `${infoUser.serverMute}`,
+                        value: `${passedUser.serverMute}`,
                         inline: true
                     },
                     {
                         name: "Created On",
-                        value: `${infoUser.user.createdAt.toISOString().slice(0,10)}`,
+                        value: `${passedUser.user.createdAt.toISOString().slice(0,10)}`,
                         inline: true
                     },
                     {
                         name: "Join Date",
-                        value: `${infoUser.joinedAt.toISOString().slice(0,10)}`,
+                        value: `${passedUser.joinedAt.toISOString().slice(0,10)}`,
                         inline: true
                     },
                     {
@@ -109,37 +107,14 @@ exports.run = (client, message, [mention, ...options]) => {
         }
         return embed;
     }
-
-    // if there is no mention part (!info is used)
+    // if there is no mention part
     if (!mention) {
         message.channel.send(createUserEmbed(message.member, message));
         message.delete(4000);
         return;
     }
-    // if there is a mention in mention
-    if (message.mentions.users.size === 1) {
-        message.channel.send(createUserEmbed(message.mentions.members.first(), message));
-        message.delete(4000);
-        return;
-    }
-    // if there is a valid ID in mention
-    if (message.guild.members.get(`${mention}`) !== undefined) {
-        message.channel.send(createUserEmbed(message.guild.members.get(`${mention}`), message));
-        message.delete(4000);
-        return;
-    }
-    // if neither are the case search in guild.members for nick- and usernames matching mention (cas-insensitive via toUpperCase())
-    var nickUser = message.guild.members.find(function(member) {
-        if (member.nickname != null) {
-            if (member.nickname.toUpperCase() == mention.toUpperCase())
-                return true;
-        }
-        if (member.user.username.toUpperCase() == mention.toUpperCase())
-            return true;
-    })
-    // if search was successful post userinfo (calls function from earlier)
-    if (nickUser != null) {
-        message.channel.send(createUserEmbed(nickUser, message));
+    if (util.getGuildMember(mention, message)) {
+        message.channel.send(createUserEmbed(util.getGuildMember(mention, message), message));
         message.delete(4000);
         return;
     } else {

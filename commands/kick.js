@@ -116,24 +116,8 @@ exports.run = (client, message, [mention, ...reason]) => {
         message.delete(4000);
         return;
     }
-    if (message.mentions.users.size === 1) {
-        pinKick(message.mentions.members.first())
-        return;
-    }
-    if (message.guild.members.get(`${mention}`) !== undefined) {
-        pinKick(message.guild.members.get(`${mention}`));
-        return;
-    }
-    var nickUserName = message.guild.members.find(function(member) {
-        if (member.nickname != null) {
-            if (member.nickname.toUpperCase() == mention.toUpperCase())
-                return true;
-        }
-        if (`${member.user.tag}` == mention || member.user.username.toUpperCase() == mention.toUpperCase())
-            return true;
-    });
-    if (nickUserName != null) {
-        pinKick(nickUserName);
+    if (util.getGuildMember(mention, message)) {
+        pinKick(util.getGuildMember(mention, message));
         return;
     } else {
         message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **${mention}** is not a valid guild member`))

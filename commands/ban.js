@@ -119,25 +119,9 @@ exports.run = (client, message, [mention, ...reason]) => {
         message.delete(4000);
         return;
     }
-    if (message.mentions.users.size === 1) {
-        pinBan(message.mentions.members.first())
-        return;
-    }
-    if (message.guild.members.get(`${mention}`) !== undefined) {
-        pinBan(message.guild.members.get(`${mention}`));
-        return;
-    }
-    var nickUserName = message.guild.members.find(function(member) {
-        if (member.nickname != null) {
-            if (member.nickname.toUpperCase() == mention.toUpperCase())
-                return true;
-        }
-        if (`${member.user.username}#${member.user.discriminator}` == mention || member.user.username.toUpperCase() == mention.toUpperCase())
-            return true;
-    });
-
-    if (nickUserName != null) {
-        pinBan(nickUserName);
+    //
+    if (util.getGuildMember(mention, message)) {
+        pinBan(util.getGuildMember(mention, message));
         return;
     } else {
         message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **${mention}** is not a valid guild member`))
