@@ -72,7 +72,9 @@ exports.run = (client, message, args) => {
         if (option == "remove" || option == "-") {
             foundGuildMember.removeRoles(foundGuildRoles)
                 .then(member => {
-                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> removed role(s) ${listFoundGuildRoles.join(", ")} from ${foundGuildMember.displayName} | <@${foundGuildMember.id}> | ID: ${foundGuildMember.id}`))
+                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> removed role(s) ${listFoundGuildRoles.join(", ")} from ${foundGuildMember.displayName} | <@${foundGuildMember.id}> | ID: ${foundGuildMember.id}`));
+                    message.delete(4000);
+                    return;
                 })
                 .catch(error => {
                     message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, ${error}`))
@@ -87,7 +89,9 @@ exports.run = (client, message, args) => {
         if (option == "set") {
             foundGuildMember.setRoles(foundGuildRoles)
                 .then(member => {
-                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> set roles to ${listFoundGuildRoles.join(", ")} for ${foundGuildMember.displayName} | <@${foundGuildMember.id}> | ID: ${foundGuildMember.id}`))
+                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> set roles to ${listFoundGuildRoles.join(", ")} for ${foundGuildMember.displayName} | <@${foundGuildMember.id}> | ID: ${foundGuildMember.id}`));
+                    message.delete(4000);
+                    return;
                 })
                 .catch(error => {
                     message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, ${error}`))
