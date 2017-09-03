@@ -96,29 +96,19 @@ exports.run = (client, message, [mention, ...options]) => {
         }
         return embed;
     }
-
-    // if there is no mention part (!info is used)
     if (!mention) {
-        message.channel.send(createUserEmbed(message.member, message));
+        message.channel.send({
+            embed: {
+                color: message.guild.me.displayColor,
+                description: `:x: <@${message.member.id}>, please provide a role`
+            }
+        }).then(message => {
+            message.guild.me.lastMessage.delete(6000);
+        });
         message.delete(4000);
-        return;
     }
-
-    if (message.mentions.roles.size === 1) {
-        message.channel.send(createRoleEmbed(message.mentions.roles.first(), message));
-        message.delete(4000);
-        return;
-    }
-    if (message.guild.roles.get(`${mention}`) !== undefined) {
-        message.channel.send(createRoleEmbed(message.guild.roles.get(`${mention}`), message));
-        message.delete(4000);
-        return;
-    }
-    var findRole = message.guild.roles.find(role => role.name.toUpperCase() == mention.toUpperCase() ? true : false);
-    if (findRole != null) {
-        message.channel.send(createRoleEmbed(findRole, message));
-        message.delete(4000);
-        return;
+    if (util.getGuildRole(mention, message)) {
+        message.channel.send(createRoleEmbed(util.getGuildRole(mention, message), message))
     } else {
         message.channel.send({
             embed: {
