@@ -57,7 +57,7 @@ exports.run = (client, message, args) => {
         if (option == "add" || option == "+") {
             foundGuildMember.addRoles(foundGuildRoles)
                 .then(member => {
-                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> added rol(e) ${listFoundGuildRoles.join(", ")} to ${foundGuildMember.displayName} | <@${foundGuildMember.id}> | ID: ${foundGuildMember.id}`))
+                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> added role(s) ${listFoundGuildRoles.join(", ")} to ${foundGuildMember.displayName} | <@${foundGuildMember.id}> | ID: ${foundGuildMember.id}`))
                     message.delete(4000);
                     return;
                 })
