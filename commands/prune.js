@@ -7,7 +7,6 @@ exports.run = (client, message, [amount, filter]) => {
         if (messages.size > 0) {
             message.channel.bulkDelete(messages)
                 .then(deletedMessages => {
-                    console.log("can this pls happen?")
                     message.channel.send(util.createEmbed(message.guild.me.displayColor, `:put_litter_in_its_place: <@${message.member.id}> successfully deleted **${deletedMessages.size}** out of ${amount} checked messages matching: <@${filteredBy}>`)).then(message => {
                         message.guild.me.lastMessage.delete(6000);
                     });
