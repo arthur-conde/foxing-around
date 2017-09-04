@@ -4,7 +4,6 @@ exports.run = (client, message, args) => {
     amount = args[0];
     filter = args[1];
     string = args.slice(2).join(" ");
-    console.log(string)
     amount = Math.min(amount, 100)
 
     function massDeleteAndLog(message, messages, filteredBy) {
