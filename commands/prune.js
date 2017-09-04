@@ -4,16 +4,29 @@ exports.run = (client, message, [amount, filter]) => {
     amount = Math.min(amount, 100)
 
     function massDeleteAndLog(message, messages, filteredBy) {
-        if (messages.size > 0) {
+        if (messages.size > 1) {
             message.channel.bulkDelete(messages)
                 .then(deletedMessages => {
-                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:put_litter_in_its_place: <@${message.member.id}> successfully deleted **${deletedMessages.size}** out of ${amount} checked messages matching: <@${filteredBy}>`)).then(message => {
+                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:put_litter_in_its_place: <@${message.member.id}> successfully deleted **${deletedMessages.size}** out of ${amount} checked messages matching: <@${filteredBy.id}>`)).then(message => {
                         message.guild.me.lastMessage.delete(6000);
                     });
                 })
                 .catch(console.error)
+            return;
+        }
+        if (messages.size == 1) {
+            console.log(messages);
+            console.log(typeof messages)
+            messages.first().delete(0)
+                .then(deletedMessages => {
+                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:put_litter_in_its_place: <@${message.member.id}> successfully deleted **1** out of ${amount} checked messages matching: <@${filteredBy.id}>`)).then(message => {
+                        message.guild.me.lastMessage.delete(6000);
+                    });
+                })
+                .catch(console.error)
+            return;
         } else {
-            message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **0** messages out of ${amount} checked messages matching: <@${filteredBy}>`)).then(message => {
+            message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **0** messages out of ${amount} checked messages matching: <@${filteredBy.id}>`)).then(message => {
                 message.guild.me.lastMessage.delete(6000);
             });
         }
@@ -58,40 +71,45 @@ exports.run = (client, message, [amount, filter]) => {
     if (!filter) {
         message.delete(0)
             .then(deletedInvoke => {
-                message.channel.bulkDelete(parseInt(amount))
-                    .then(deletedMessages => {
-                        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:put_litter_in_its_place: <@${message.member.id}> successfully deleted **${deletedMessages.size}** messages`)).then(message => {
-                            message.guild.me.lastMessage.delete(6000);
-                        });
+                message.channel.fetchMessages({
+                        limit: amount
                     })
-                    .catch(console.error)
-                return;
-            })
-    }
-    message.delete(0)
-        .then(deletedInvoke => {
-            message.channel.fetchMessages({
-                    limit: amount
-                })
-                .then(messages => {
-                    var filterBy = "empty"
-                    if (message.mentions.users.size === 1) {
-                        filterBy = message.mentions.members.first().id
-                        messages = messages.filter(m => m.author.id === filterBy)
-                        massDeleteAndLog(message, messages, filterBy)
-                    } else {
-                        client.fetchUser(filter, true)
-                            .then(fetchedUser => {
-                                filterBy = fetchedUser.id;
-                                messages = messages.filter(m => m.author.id === filterBy)
-                                massDeleteAndLog(message, messages, filterBy)
-                            })
-                            .catch(error => {
-                                message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, invalid filter`)).then(message => {
+                    .then(messages => {
+                        messages = messages.filter(m => m.pinned === false)
+                        message.channel.bulkDelete(messages)
+                            .then(deletedMessages => {
+                                message.channel.send(util.createEmbed(message.guild.me.displayColor, `:put_litter_in_its_place: <@${message.member.id}> successfully deleted **${deletedMessages.size}** messages`)).then(message => {
                                     message.guild.me.lastMessage.delete(6000);
                                 });
                             })
-                    }
-                })
-        })
+                    })
+
+            })
+    } else {
+        message.delete(0)
+            .then(deletedInvoke => {
+                message.channel.fetchMessages({
+                        limit: amount
+                    })
+                    .then(messages => {
+                        var filterBy = util.getGuildMember(filter, message)
+                        if (filterBy) {
+                            messages = messages.filter(m => m.author.id === filterBy.id && m.pinned === false)
+                            massDeleteAndLog(message, messages, filterBy)
+                        } else {
+                            client.fetchUser(filter, true)
+                                .then(fetchedUser => {
+                                    filterBy = fetchedUser;
+                                    messages = messages.filter(m => m.author.id === filterBy.id && m.pinned === false)
+                                    massDeleteAndLog(message, messages, filterBy)
+                                })
+                                .catch(error => {
+                                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, invalid filter`)).then(message => {
+                                        message.guild.me.lastMessage.delete(6000);
+                                    });
+                                })
+                        }
+                    })
+            })
+    }
 }
