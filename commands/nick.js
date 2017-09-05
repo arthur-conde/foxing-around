@@ -26,7 +26,11 @@ exports.run = (client, message, [mention, ...nick]) => {
     if (nickMember) {
         nickMember.setNickname(`${nick}`)
             .then(member => {
-                message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully nicknamed ${nickMember.tag} | <@${nickMember.id}> | ID: ${nickMember.id} to ${nick}`))
+                if (nick = []) {
+                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully reset the nickname for ${nickMember.user.tag} | <@${nickMember.id}> | ID: ${nickMember.id}`))
+                } else {
+                    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully nicknamed ${nickMember.user.tag} | <@${nickMember.id}> | ID: ${nickMember.id} to ${nick}`))
+                }
             });
         message.delete(4000);
         return;
