@@ -119,7 +119,6 @@ exports.run = (client, message, [mention, ...reason]) => {
         message.delete(4000);
         return;
     }
-    //
     if (util.getGuildMember(mention, message)) {
         pinBan(util.getGuildMember(mention, message));
         return;
