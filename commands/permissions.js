@@ -5,7 +5,7 @@ exports.run = (client, message, args) => {
     var permissions = new Discord.Permissions(parseInt(argument)).serialize();
     var buffer = [];
     for (var p in permissions) {
-        buffer.push(`${permissions[p] ? "✅": "❌"} ${p.toLowerCase()} \r\n`);
+        buffer.push(`${permissions[p] ? "✅": "❌"} ${p.toLowerCase()}`);
     }
     message.delete()
     message.channel.send({
@@ -15,7 +15,7 @@ exports.run = (client, message, args) => {
                 description: `Window visible for 30 seconds, to close window type **exit**`,
                 fields: [{
                     name: `_ _`,
-                    value: `${buffer.join(" ")}`
+                    value: `${buffer.join("\r\n")}`
                 }],
                 footer: {
                     text: `Request by ${message.member.displayName} (${message.author.id})`,
