@@ -5,29 +5,24 @@ exports.run = (client, message, args) => {
     var permissions = new Discord.Permissions(parseInt(argument)).serialize();
     var buffer = [];
     for (var p in permissions) {
-        buffer.push(`${p}: ${permissions[p] ? "✅": "❌"}`);
-    }
-    var permissionEmbed = {
-        embed: {
-            title: `Permission parse for "${argument}"`,
-            color: message.guild.me.displayColor,
-            description: `Window visible for 30 seconds, to close window type **exit**`,
-            fields: [],
-            footer: {
-                text: `Request by ${message.member.displayName} (${message.author.id})`,
-                icon_url: message.author.avatarURL
-            }
-        }
-    }
-    for (var i in permissions) {
-        permissionEmbed.embed.fields.push({
-            name: `${i.toLowerCase()}`,
-            value: `${permissions[i] ? "✅": "❌" }`,
-            inline: true
-        })
+        buffer.push(`${permissions[p] ? "✅": "❌"} ${p.toLowerCase()} \r\n`);
     }
     message.delete()
-    message.channel.send(permissionEmbed)
+    message.channel.send({
+            embed: {
+                title: `Permission parse for "${argument}"`,
+                color: message.guild.me.displayColor,
+                description: `Window visible for 30 seconds, to close window type **exit**`,
+                fields: [{
+                    name: `_ _`,
+                    value: `${buffer.join(" ")}`
+                }],
+                footer: {
+                    text: `Request by ${message.member.displayName} (${message.author.id})`,
+                    icon_url: message.author.avatarURL
+                }
+            }
+        })
         .then(msg => {
             message.channel.awaitMessages(response => response.author.id === message.author.id && response.content.toUpperCase() == "EXIT", {
                     max: 1,
