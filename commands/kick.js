@@ -4,7 +4,7 @@ exports.run = (client, message, [mention, ...reason]) => {
     function kickGuildMember(kickMember) {
         kickMember.kick(`${message.member.displayName} (ID: ${message.member.id}) ` + reason.join(" "))
             .then(member => {
-                message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully kicked ${kickMember.displayName} | <@${kickMember.id}> | ID: ${kickMember.id}`))
+                message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully kicked ${kickMember.displayName} | <@${kickMember.id}> | ID: ${kickMember.id} with reason: "${reason.join(" ")}"`))
             });
     }
 
@@ -41,7 +41,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                 embed: {
                     color: 13650249,
                     title: `Confirmation needed - kick`,
-                    description: `:question: <@${message.member.id}>, is this the user you are looking for?\r\nConfirm kick with pin **${pin}**, refuse with \`cancel\`\r\n`,
+                    description: `:question: <@${message.member.id}>, you are about to kick this user with the reason: \r\n"${reason.join(" ")}"\r\n\r\nConfirm kick with pin **${pin}**, refuse with \`cancel\`\r\n`,
                     thumbnail: {
                         url: kickMember.user.avatarURL
                     },

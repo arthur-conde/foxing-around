@@ -33,7 +33,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                     embed: {
                         color: 986895,
                         title: `Confirmation needed - forceban`,
-                        description: `:question: <@${message.member.id}>, is this the user you are looking for?\r\nConfirm forceban with pin **${pin}**, refuse with \`cancel\`\r\n`,
+                        description: `:question: <@${message.member.id}>, you are about to forceban this user with the reason: \r\n"${reason.join(" ")}"\r\n\r\nConfirm forceban with pin **${pin}**, refuse with \`cancel\`\r\n`,
                         thumbnail: {
                             url: forceBanMember.avatarURL
                         },
@@ -64,7 +64,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                             if (collectedMsg.first().content === `${pin}`) {
                                 message.guild.ban(mention, `${message.member.displayName} (ID: ${message.member.id}): ` + reason.join(" "))
                                     .then(forceBanMember => {
-                                        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully forcebanned ${forceBanMember.tag} | <@${forceBanMember.id}> | ID: ${forceBanMember.id}`));
+                                        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully forcebanned ${forceBanMember.tag} | <@${forceBanMember.id}> | ID: ${forceBanMember.id} with reason: "${reason.join(" ")}"`));
                                     })
                                     .catch(error => {
                                         message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}> ${error}`))

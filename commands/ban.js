@@ -4,7 +4,7 @@ exports.run = (client, message, [mention, ...reason]) => {
     function banGuildMember(banMember) {
         banMember.ban(`${message.member.displayName} (ID: ${message.member.id}) ` + reason.join(" "))
             .then(member => {
-                message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully banned ${banMember.displayName} | <@${banMember.id}> | ID: ${banMember.id}`))
+                message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully banned ${banMember.displayName} | <@${banMember.id}> | ID: ${banMember.id} with reason: "${reason.join(" ")}"`))
             });
     }
 
@@ -41,7 +41,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                 embed: {
                     color: 986895,
                     title: `Confirmation needed - ban`,
-                    description: `:question: <@${message.member.id}>, is this the user you are looking for?\r\nConfirm ban with pin **${pin}**, refuse with \`cancel\`\r\n`,
+                    description: `:question: <@${message.member.id}>, you are about to ban this user with the reason: \r\n"${reason.join(" ")}"\r\n\r\nConfirm ban with pin **${pin}**, refuse with \`cancel\`\r\n`,
                     thumbnail: {
                         url: banMember.user.avatarURL
                     },
