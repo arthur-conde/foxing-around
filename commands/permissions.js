@@ -11,7 +11,7 @@ exports.run = (client, message, args) => {
         embed: {
             title: `Permission parse for "${argument}"`,
             color: message.guild.me.displayColor,
-            description: `_ _`,
+            description: `Window visible for 30 seconds, to close window type **exit**`,
             fields: [],
             footer: {
                 text: `Request by ${message.member.displayName} (${message.author.id})`,
@@ -26,9 +26,20 @@ exports.run = (client, message, args) => {
             inline: true
         })
     }
+    message.delete()
     message.channel.send(permissionEmbed)
-        .then(message => {
-            message.guild.me.lastMessage.delete(10000);
-        });
-    message.delete(4000);
+        .then(msg => {
+            message.channel.awaitMessages(response => response.author.id === message.author.id && response.content.toUpperCase() == "EXIT", {
+                    max: 1,
+                    time: 30000,
+                    errors: [`time`],
+                })
+                .then(collectedMsg => {
+                    collectedMsg.first().delete()
+                    msg.delete()
+                })
+                .catch(e => {
+                    msg.delete()
+                })
+        })
 }
