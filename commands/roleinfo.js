@@ -15,6 +15,21 @@ exports.run = (client, message, [mention, ...options]) => {
                 roleMembersOffline.push(`<@${member.id}>`)
             }
         });
+        var membersOnlineLength = roleMembersOnline.length;
+        var membersOfflineLength = roleMembersOffline.length;
+        var membersLength = roleMembers.length;
+        if (roleMembersOnline.length == 0) {
+            roleMembersOnline = ["None"];
+            membersOnlineLength = 0;
+        }
+        if (roleMembersOffline.length == 0) {
+            roleMembersOffline = ["None"];
+            membersOfflineLength = 0;
+        }
+        if (roleMembers.length == 0) {
+            roleMembers = ["None"];
+            membersLength = 0;
+        }
         var guildRoles = [];
         message.guild.roles.forEach(role => {
             if (role.id == message.guild.id) {
@@ -83,7 +98,7 @@ exports.run = (client, message, [mention, ...options]) => {
                         inline: true
                     },
                     {
-                        name: `Members [${roleMembersOnline.length}/${roleMembers.length} online]`,
+                        name: `Members [${membersOnlineLength}/${membersLength} online]`,
                         value: `online: ${roleMembersOnline.join(", ")} \noffline: ${roleMembersOffline.join(", ")}`,
                         inline: false
                     }
@@ -108,7 +123,8 @@ exports.run = (client, message, [mention, ...options]) => {
         message.delete(4000);
     }
     if (util.getGuildRole(mention, message)) {
-        message.channel.send(createRoleEmbed(util.getGuildRole(mention, message), message))
+        message.channel.send(createRoleEmbed(util.getGuildRole(mention, message), message));
+        message.delete(4000);
     } else {
         message.channel.send({
             embed: {
