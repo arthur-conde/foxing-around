@@ -14,7 +14,6 @@ exports.run = (client, message, [tags]) => {
         content = this.responseText;
         var xml = content;
         parseString(xml, function(err, result) {
-            console.log(u.inspect(result, false, null));
             if (result.posts.$.count == 0) {
                 message.channel.send(`no result`)
                 return;

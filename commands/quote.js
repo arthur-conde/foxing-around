@@ -5,6 +5,14 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
     if (!channelID) channelID = message.channel.id;
     if (!edits) edits = "false";
     var msg
+    if (!messageID) {
+        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, provide ID to quote`))
+            .then(message => {
+                message.guild.me.lastMessage.delete(6000);
+            });
+        message.delete(4000);
+        return;
+    }
     message.guild.channels.get(channelID.toString()).fetchMessage(messageID.toString())
         .then(m => {
             msg = m

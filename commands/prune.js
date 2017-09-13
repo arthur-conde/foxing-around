@@ -1,5 +1,6 @@
 const config = require("../config/config.json");
 const Discord = require("discord.js");
+const util = require("../foxxo.util.js");
 exports.run = (client, message, args) => {
     amount = args[0];
     filter = args[1];

@@ -1,7 +1,14 @@
 const config = require("../config/config.json");
 const util = require("../foxxo.util.js");
 exports.run = (client, message, [mention, args]) => {
-
+    if (!mention) {
+        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, provide ID to fetch`))
+            .then(message => {
+                message.guild.me.lastMessage.delete(6000);
+            });
+        message.delete(4000);
+        return;
+    }
     if (client.fetchUser(mention, true)) {
         client.fetchUser(mention).then(fetchedUser => {
                 const isBot = fetchedUser.bot == true ? "🤖" : "";
