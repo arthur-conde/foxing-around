@@ -2,7 +2,7 @@ const config = require("../config/config.json");
 const util = require("../foxxo.util.js");
 exports.run = (client, message, args) => {
     var extensions = [".js", ".json"];
-    var folders = ["./", "../"];
+    var folders = ["./", "../", "../config/"];
 
     for (var i in extensions) {
         for (var j in folders) {
