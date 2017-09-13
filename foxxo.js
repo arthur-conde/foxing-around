@@ -17,10 +17,9 @@ fs.readdir("./events/", (err, files) => {
 client.on("message", message => {
     if (message.author.bot) return; // Ignores any messages written by a bot
     if (message.content.indexOf(config.prefix) !== 0) return; // Ignores any messagess missing the prefix
-    if (config.ignoredUsers.includes(`${message.author.id}`)) {
-        console.log(`!!! unauthorized command invoke by ignored user ${message.author.tag} | ${message.author.id} on  ==> "${message}"`);
+    if (config.blacklist.includes(`${message.author.id}`) && !config.owner.includes(`${message.author.id}`)) {
         return;
-    }
+    } // ignores all users on the blacklist, if they are not on the owner list
     // This is the best way to define args. Trust me.
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g); // Removes the prefix then splits the message content by space
     const command = args.shift().toLowerCase(); // Takes the first item in the message

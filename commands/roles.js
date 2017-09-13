@@ -6,7 +6,6 @@ exports.run = (client, message, args) => {
     var user = args[1];
     var roles = args.slice(2);
     if (!message.member.hasPermission("MANAGE_ROLES")) {
-        console.log(`[!!!] unauthorized command invoke !role by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.tag} || on <${option} ${user} ${role}>`);
         return;
     }
     if (!option || !user || roles.length === 0) {

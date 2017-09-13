@@ -2,7 +2,6 @@ const config = require("../config.json");
 const util = require("../foxxo.util.js");
 exports.run = (client, message, [mention, ...reason]) => {
     if (!message.member.hasPermission("BAN_MEMBERS")) {
-        console.log(`!!! unauthorized command invoke !forceban by user <@${message.member.id}> | ${message.member.displayName} |  ${message.member.user.tag} ==> on <${mention}>`);
         message.delete(4000);
         return;
     }

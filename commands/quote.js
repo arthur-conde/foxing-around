@@ -31,7 +31,7 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
                         }
                     })
                 } else {
-                    if (!message.member.hasPermission("ADMINISTRATOR") && message.author.id !== config.ownerID) {
+                    if (!config.owner.includes(`${message.author.id}`)) {
                         return;
                     }
                     var msgEditedAt
@@ -55,6 +55,5 @@ exports.run = (client, message, [messageID, edits, channelID]) => {
                     })
                 }
             }
-        })
-    message.delete(4000);
+        }) message.delete(4000);
 }

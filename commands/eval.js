@@ -9,9 +9,7 @@ exports.run = (client, message, args) => {
             return text;
     }
     if (message.content.startsWith(config.prefix + "eval")) {
-        if (message.author.id !== config.ownerID && message.author.id !== config.teachID) {
-            console.log(`[!!!] unauthorized command invoke !eval by user <@${message.member.id}> | ${message.member.displayName} | ${message.member.user.tag} || on <${message}>`);
-            message.delete(4000);
+        if (!config.owner.includes(`${message.author.id}`)) {
             return;
         }
         try {

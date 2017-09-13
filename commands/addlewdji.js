@@ -3,7 +3,9 @@ const lewdjiconfig = require("../lewdjiconfig.json");
 const util = require("../foxxo.util.js");
 const fs = require("fs")
 exports.run = (client, message, [link]) => {
-    if (message.author.id !== config.ownerID && message.author.id !== config.teachID && message.author.id !== "108241729034952704") return;
+    if (!config.whitelist.includes(`${message.author.id}`) && !config.owner.includes(`${message.author.id}`)) {
+        return;
+    }
     if (!link) {
         message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, provide a link to add`))
             .then(message => {

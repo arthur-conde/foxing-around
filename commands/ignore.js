@@ -2,7 +2,9 @@ const config = require("../config.json");
 const util = require("../foxxo.util.js");
 const fs = require("fs")
 exports.run = (client, message, [mention]) => {
-    if (message.author.id !== config.ownerID && message.author.id !== config.teachID) return;
+    if (!config.owner.includes(`${message.author.id}`)) {
+        return;
+    }
     if (!mention) {
         message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, please provide a guild member to ignore`))
             .then(message => {

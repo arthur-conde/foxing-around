@@ -99,7 +99,6 @@ exports.run = (client, message, [mention, ...reason]) => {
             })
     }
     if (!message.member.hasPermission("BAN_MEMBERS")) {
-        console.log(`!!! unauthorized command invoke !ban by user <@${message.member.id}> | ${message.member.displayName} |  ${message.member.user.tag} ==> on <${mention}>`);
         message.delete(4000);
         return;
     }

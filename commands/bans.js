@@ -2,7 +2,6 @@ const config = require("../config.json");
 const util = require("../foxxo.util.js");
 exports.run = (client, message, [args]) => {
     if (!message.member.hasPermission("BAN_MEMBERS")) {
-        console.log(`!!! unauthorized command invoke !bans by user <@${message.member.id}> | ${message.member.displayName} |  ${message.member.user.tag}`);
         message.delete(4000);
         return;
     }
@@ -18,7 +17,6 @@ exports.run = (client, message, [args]) => {
         var bannedUsers = []
         users.forEach(user => {
             bannedUsers.push(`${user.presence.status} | ${user.bot == true ? "🤖" : ""}${user.tag} (${user.id})`)
-            console.log(user)
         })
         message.channel.send({
             embed: {

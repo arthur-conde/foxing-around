@@ -98,7 +98,6 @@ exports.run = (client, message, [mention, ...reason]) => {
     }
 
     if (!message.member.hasPermission("KICK_MEMBERS")) {
-        console.log(`[!!!] unauthorized command invoke !kick by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.tag} || on <${mention}>`);
         message.delete(4000)
         return;
     }

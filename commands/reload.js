@@ -13,9 +13,7 @@ exports.run = (client, message, args) => {
                     });
                 message.delete(4000);
                 return;
-            } catch (e) {
-                //console.error(e);
-            }
+            } catch (e) {}
         }
     }
 
