@@ -6,7 +6,9 @@ exports.run = (client, message, [mention, ...options]) => {
         // finding out stuff to later display in the embed
         // check if bot/admin
         const isBot = passedUser.user.bot == true ? "🤖" : "";
-        const isAdmin = passedUser.hasPermission("ADMINISTRATOR") == true ? "🅰" : ""
+        const isWhitelisted = config.whitelist.includes(`${passedUser.id}`) == true ? "[🔑Whitelist]" : ""
+        const isBlacklisted = config.blacklist.includes(`${passedUser.id}`) == true ? "[⛔Blacklist]" : ""
+        const isOwner = config.owner.includes(`${passedUser.id}`) == true ? "[🦊Owner]" : ""
         // check if Nickname is present, if not display "None" since value in field is required
         const passedUserNickname = passedUser.nickname != null ? `${passedUser.nickname}` : "None"
         // Uppercase first letter of status
@@ -35,7 +37,7 @@ exports.run = (client, message, [mention, ...options]) => {
             embed: {
                 color: passedUser.displayColor,
                 author: {
-                    name: `${isAdmin} ${isBot} ${passedUser.user.tag}`,
+                    name: `${isOwner} ${isWhitelisted}${isBlacklisted}${isBot} ${passedUser.user.tag}`,
                     icon_url: passedUser.user.avatarURL
                 },
                 title: "ID",
@@ -94,7 +96,7 @@ exports.run = (client, message, [mention, ...options]) => {
                         inline: true
                     },
                     {
-                        name: `Roles[${roleListLength}]`,
+                        name: `Roles [${roleListLength}]`,
                         value: `${roleList.join(", ")}`,
                         inline: false
                     }

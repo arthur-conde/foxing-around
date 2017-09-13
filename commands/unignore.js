@@ -25,6 +25,9 @@ exports.run = (client, message, [mention]) => {
             }
             var pin = util.getRandInt(1000, 9999);
             const isBot = unignoreMember.bot == true ? "🤖" : "";
+            const isWhitelisted = config.whitelist.includes(`${unignoreMember.id}`) == true ? "[🔑Whitelist]" : ""
+            const isBlacklisted = config.blacklist.includes(`${unignoreMember.id}`) == true ? "[⛔Blacklist]" : ""
+            const isOwner = config.owner.includes(`${unignoreMember.id}`) == true ? "[🦊Owner]" : ""
             const unignoreMemberStatus = unignoreMember.presence.status.charAt(0).toUpperCase() + unignoreMember.presence.status.slice(1);
             const unignoreMemberPlaying = unignoreMember.presence.game == null ? "None" : unignoreMember.presence.game
             var unignoreMemberAccountAge = Math.floor((Date.now() - unignoreMember.createdAt) / 1000 / 60 / 60 / 24);
@@ -38,7 +41,7 @@ exports.run = (client, message, [mention]) => {
                         },
                         fields: [{
                                 name: `Userinformation`,
-                                value: `**Usertag:** ${isBot} ${unignoreMember.tag}\r\n**ID:** ${unignoreMember.id}\r\n**Mention:** <@${unignoreMember.id}>\r\n\r\n**Status:** ${unignoreMemberStatus}\r\n**Playing:** ${unignoreMemberPlaying}`,
+                                value: `**Usertag:** ${isWhitelisted}${isBlacklisted}${isBot} ${unignoreMember.tag}\r\n**ID:** ${unignoreMember.id}\r\n**Mention:** <@${unignoreMember.id}>\r\n\r\n**Status:** ${unignoreMemberStatus}\r\n**Playing:** ${unignoreMemberPlaying}`,
                                 inline: false
                             },
                             {

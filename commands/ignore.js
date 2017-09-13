@@ -33,6 +33,9 @@ exports.run = (client, message, [mention]) => {
             }
             var pin = util.getRandInt(1000, 9999);
             const isBot = ignoreMember.bot == true ? "🤖" : "";
+            const isWhitelisted = config.whitelist.includes(`${ignoreMember.id}`) == true ? "[🔑Whitelist]" : ""
+            const isBlacklisted = config.blacklist.includes(`${ignoreMember.id}`) == true ? "[⛔Blacklist]" : ""
+            const isOwner = config.owner.includes(`${ignoreMember.id}`) == true ? "[🦊Owner]" : ""
             const ignoreMemberStatus = ignoreMember.presence.status.charAt(0).toUpperCase() + ignoreMember.presence.status.slice(1);
             const ignoreMemberPlaying = ignoreMember.presence.game == null ? "None" : ignoreMember.presence.game
             var ignoreMemberAccountAge = Math.floor((Date.now() - ignoreMember.createdAt) / 1000 / 60 / 60 / 24);
@@ -46,7 +49,7 @@ exports.run = (client, message, [mention]) => {
                         },
                         fields: [{
                                 name: `Userinformation`,
-                                value: `**Usertag:** ${isBot} ${ignoreMember.tag}\r\n**ID:** ${ignoreMember.id}\r\n**Mention:** <@${ignoreMember.id}>\r\n\r\n**Status:** ${ignoreMemberStatus}\r\n**Playing:** ${ignoreMemberPlaying}`,
+                                value: `**Usertag:** ${isWhitelisted}${isBlacklisted}${isBot} ${ignoreMember.tag}\r\n**ID:** ${ignoreMember.id}\r\n**Mention:** <@${ignoreMember.id}>\r\n\r\n**Status:** ${ignoreMemberStatus}\r\n**Playing:** ${ignoreMemberPlaying}`,
                                 inline: false
                             },
                             {

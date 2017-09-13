@@ -25,6 +25,9 @@ exports.run = (client, message, [mention, ...reason]) => {
         .then(forceBanMember => {
             var pin = util.getRandInt(1000, 9999);
             const isBot = forceBanMember.bot == true ? "🤖" : "";
+            const isWhitelisted = config.whitelist.includes(`${forceBanMember.id}`) == true ? "[🔑Whitelist]" : ""
+            const isBlacklisted = config.blacklist.includes(`${forceBanMember.id}`) == true ? "[⛔Blacklist]" : ""
+            const isOwner = config.owner.includes(`${forceBanMember.id}`) == true ? "[🦊Owner]" : ""
             const forceBanMemberStatus = forceBanMember.presence.status.charAt(0).toUpperCase() + forceBanMember.presence.status.slice(1);
             const forceBanMemberPlaying = forceBanMember.presence.game == null ? "None" : forceBanMember.presence.game
             var forceBanMemberAccountAge = Math.floor((Date.now() - forceBanMember.createdAt) / 1000 / 60 / 60 / 24);
@@ -38,7 +41,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                         },
                         fields: [{
                                 name: `Userinformation`,
-                                value: `**Usertag:** ${isBot} ${forceBanMember.tag}\r\n**ID:** ${forceBanMember.id}\r\n**Mention:** <@${forceBanMember.id}>\r\n\r\n**Status:** ${forceBanMemberStatus}\r\n**Playing:** ${forceBanMemberPlaying}`,
+                                value: `**Usertag:** ${isWhitelisted}${isBlacklisted}${isBot} ${forceBanMember.tag}\r\n**ID:** ${forceBanMember.id}\r\n**Mention:** <@${forceBanMember.id}>\r\n\r\n**Status:** ${forceBanMemberStatus}\r\n**Playing:** ${forceBanMemberPlaying}`,
                                 inline: false
                             },
                             {

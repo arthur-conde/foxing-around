@@ -5,13 +5,16 @@ exports.run = (client, message, [mention, args]) => {
     if (client.fetchUser(mention, true)) {
         client.fetchUser(mention).then(fetchedUser => {
                 const isBot = fetchedUser.bot == true ? "🤖" : "";
+                const isWhitelisted = config.whitelist.includes(`${fetchedUser.id}`) == true ? "[🔑Whitelist]" : ""
+                const isBlacklisted = config.blacklist.includes(`${fetchedUser.id}`) == true ? "[⛔Blacklist]" : ""
+                const isOwner = config.owner.includes(`${fetchedUser.id}`) == true ? "[🦊Owner]" : ""
                 const fetchedUserStatus = fetchedUser.presence.status.charAt(0).toUpperCase() + fetchedUser.presence.status.slice(1);
                 var fetchedUserAccountAge = Math.floor((Date.now() - fetchedUser.createdAt) / 1000 / 60 / 60 / 24);
                 message.channel.send({
                     embed: {
                         color: message.guild.me.displayColor,
                         author: {
-                            name: `${isBot} ${fetchedUser.tag}`,
+                            name: `${isWhitelisted}${isBlacklisted}${isBot} ${fetchedUser.tag}`,
                             icon_url: fetchedUser.avatarURL
                         },
                         title: "ID",

@@ -26,7 +26,6 @@ exports.run = (client, message, [mention, ...reason]) => {
         return
     }
     if (!message.member.hasPermission("BAN_MEMBERS")) {
-        console.log(`[!!!] unauthorized command invoke !unban by user <@${message.member.id}>,${message.member.displayName}, ${message.member.user.tag} || on <${mention}>`);
         message.delete(4000);
         return
     }
@@ -42,6 +41,9 @@ exports.run = (client, message, [mention, ...reason]) => {
                     // enter confirmation request here
                     var pin = util.getRandInt(1000, 9999);
                     const isBot = bannedUser.bot == true ? "🤖" : "";
+                    const isWhitelisted = config.whitelist.includes(`${bannedUser.id}`) == true ? "[🔑Whitelist]" : ""
+                    const isBlacklisted = config.blacklist.includes(`${bannedUser.id}`) == true ? "[⛔Blacklist]" : ""
+                    const isOwner = config.owner.includes(`${bannedUser.id}`) == true ? "[🦊Owner]" : ""
                     const bannedUserStatus = bannedUser.presence.status.charAt(0).toUpperCase() + bannedUser.presence.status.slice(1);
                     const bannedUserPlaying = bannedUser.presence.game == null ? "None" : bannedUser.presence.game
                     var bannedUserAccountAge = Math.floor((Date.now() - bannedUser.createdAt) / 1000 / 60 / 60 / 24);
@@ -55,7 +57,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                                 },
                                 fields: [{
                                         name: `Userinformation`,
-                                        value: `**Usertag:** ${isBot} ${bannedUser.tag}\r\n**ID:** ${bannedUser.id}\r\n**Mention:** <@${bannedUser.id}>\r\n\r\n**Status:** ${bannedUserStatus}\r\n**Playing:** ${bannedUserPlaying}`,
+                                        value: `**Usertag:** ${isWhitelisted}${isBlacklisted}${isBot} ${bannedUser.tag}\r\n**ID:** ${bannedUser.id}\r\n**Mention:** <@${bannedUser.id}>\r\n\r\n**Status:** ${bannedUserStatus}\r\n**Playing:** ${bannedUserPlaying}`,
                                         inline: false
                                     },
                                     {

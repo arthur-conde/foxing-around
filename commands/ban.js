@@ -13,6 +13,9 @@ exports.run = (client, message, [mention, ...reason]) => {
         // finding out stuff to later display in the embed
         // check if bot
         const isBot = banMember.user.bot == true ? "🤖" : "";
+        const isWhitelisted = config.whitelist.includes(`${banMember.id}`) == true ? "[🔑Whitelist]" : ""
+        const isBlacklisted = config.blacklist.includes(`${banMember.id}`) == true ? "[⛔Blacklist]" : ""
+        const isOwner = config.owner.includes(`${banMember.id}`) == true ? "[🦊Owner]" : ""
         // check if Nickname is present, if not display "None" since value in field is required
         const banMemberNickname = banMember.nickname != null ? `${banMember.nickname}` : "None"
         // Uppercase first letter of userstatsu
@@ -47,7 +50,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                     },
                     fields: [{
                             name: `Userinformation`,
-                            value: `**Usertag:** ${isBot} ${banMember.user.tag}\r\n**ID:** ${banMember.user.id}\r\n**Mention:** <@${banMember.user.id}>\r\n**Nickname:** ${banMemberNickname}\r\n\r\n**Status:** ${banMemberStatus}\r\n**Playing:** ${banMemberPlaying}`,
+                            value: `**Usertag:** ${isWhitelisted}${isBlacklisted}${isBot} ${banMember.user.tag}\r\n**ID:** ${banMember.user.id}\r\n**Mention:** <@${banMember.user.id}>\r\n**Nickname:** ${banMemberNickname}\r\n\r\n**Status:** ${banMemberStatus}\r\n**Playing:** ${banMemberPlaying}`,
                             inline: true
                         },
                         {

@@ -13,6 +13,9 @@ exports.run = (client, message, [mention, ...reason]) => {
         // finding out stuff to later display in the embed
         // check if bot
         const isBot = kickMember.user.bot == true ? "🤖" : "";
+        const isWhitelisted = config.whitelist.includes(`${kickMember.id}`) == true ? "[🔑Whitelist]" : ""
+        const isBlacklisted = config.blacklist.includes(`${kickMember.id}`) == true ? "[⛔Blacklist]" : ""
+        const isOwner = config.owner.includes(`${kickMember.id}`) == true ? "[🦊Owner]" : ""
         // check if Nickname is present, if not display "None" since value in field is required
         const kickMemberNickname = kickMember.nickname != null ? `${kickMember.nickname}` : "None"
         // Uppercase first letter of userstatsu
@@ -47,7 +50,7 @@ exports.run = (client, message, [mention, ...reason]) => {
                     },
                     fields: [{
                             name: `Userinformation:`,
-                            value: `**Usertag:** ${isBot} ${kickMember.user.tag}\r\n**ID:** ${kickMember.user.id}\r\n**Mention:** <@${kickMember.user.id}>\r\n**Nickname:** ${kickMemberNickname}\r\n\r\n**Status:** ${kickMemberStatus}\r\n**Playing:** ${kickMemberPlaying}`,
+                            value: `**Usertag:** ${isWhitelisted}${isBlacklisted}${isBot} ${kickMember.user.tag}\r\n**ID:** ${kickMember.user.id}\r\n**Mention:** <@${kickMember.user.id}>\r\n**Nickname:** ${kickMemberNickname}\r\n\r\n**Status:** ${kickMemberStatus}\r\n**Playing:** ${kickMemberPlaying}`,
                             inline: true
                         },
                         {
