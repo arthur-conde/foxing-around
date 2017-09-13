@@ -12,6 +12,15 @@ exports.run = (client, message, args) => {
     if (!config.owner.includes(`${message.author.id}`)) {
         return;
     }
+    if (!mention && viableLists.includes(list)) {
+        var listUsers = []
+        for (i in config[list]) {
+            listUsers.push(`[${i}] ${config[list][i]} | <@${config[list][i]}>`)
+        }
+        message.channel.send(util.createEmbed(16426522, `:information_source:  <@${message.member.id}>, ${list} contains:\r\n\r\n${listUsers.join("\r\n")}`));
+        message.delete(4000);
+        return;
+    }
     // check if all arguments are present
     if (!list || !option || !mention) {
         message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, provide a full set of arguments in the form of \`!config <list> <add | remove> <member>\``))
@@ -23,7 +32,7 @@ exports.run = (client, message, args) => {
     }
     // check if argument list is valid
     if (!viableLists.includes(list)) {
-        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **${list}** is not a valid argument`))
+        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **${list}** is not a valid list argument`))
             .then(message => {
                 message.guild.me.lastMessage.delete(6000);
             });
@@ -32,7 +41,7 @@ exports.run = (client, message, args) => {
     }
     // check if argument option is valid
     if (!viableOptions.includes(option)) {
-        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **${option}** is not a valid argument`))
+        message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, **${option}** is not a valid option argument`))
             .then(message => {
                 message.guild.me.lastMessage.delete(6000);
             });
@@ -84,7 +93,7 @@ exports.run = (client, message, args) => {
                         },
                         fields: [{
                                 name: `Userinformation`,
-                                value: `**Usertag:** ${isWhitelisted}${isBlacklisted}${isBot} ${fetchedUser.tag}\r\n**ID:** ${fetchedUser.id}\r\n**Mention:** <@${fetchedUser.id}>\r\n\r\n**Status:** ${fetchedUserStatus}\r\n**Playing:** ${fetchedUserPlaying}`,
+                                value: `**Usertag:** ${isOwner}${isWhitelisted}${isBlacklisted}${isBot} ${fetchedUser.tag}\r\n**ID:** ${fetchedUser.id}\r\n**Mention:** <@${fetchedUser.id}>\r\n\r\n**Status:** ${fetchedUserStatus}\r\n**Playing:** ${fetchedUserPlaying}`,
                                 inline: false
                             },
                             {
