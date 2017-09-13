@@ -51,7 +51,6 @@ exports.run = (client, message, args) => {
     // try to fetch user, check if user provided is actually a user ID
     client.fetchUser(mention, true)
         .then(fetchedUser => {
-            console.log(fetchedUser.tag)
             // if user is found and fetched
             // check if user is already on provided list
             if (option == "add" || option == "+") {
@@ -115,9 +114,7 @@ exports.run = (client, message, args) => {
                             errors: [`time`],
                         })
                         .then(collectedMsg => {
-                            console.log(collectedMsg.first().content)
                             if (collectedMsg.first().content === `${pin}`) {
-                                console.log("checkin for the pin")
                                 if (option == "add" || option == "+") {
                                     config[list].push(fetchedUser.id);
                                     fs.writeFile("./config/config.json", JSON.stringify(config, null, 4), (err) => console.error);
@@ -140,7 +137,6 @@ exports.run = (client, message, args) => {
                             message.delete(4000);
                         })
                         .catch(e => {
-                            console.log(e)
                             message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, config change request canceled`))
                                 .then(message => {
                                     message.guild.me.lastMessage.delete(6000);
@@ -154,7 +150,6 @@ exports.run = (client, message, args) => {
                 .then(message => {
                     message.guild.me.lastMessage.delete(6000);
                 });
-            console.log(error);
             message.delete(4000);
             return;
         })
