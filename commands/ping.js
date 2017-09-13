@@ -1,3 +1,4 @@
+const config = require("../config/config.json");
 const util = require("../foxxo.util.js");
 exports.run = (client, message, args) => {
     message.channel.send(

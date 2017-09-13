@@ -1,5 +1,5 @@
-const config = require("../config.json");
-const lionconfig = require("../ranlionconfig.json");
+const config = require("../config/config.json");
+const lionconfig = require("../config/lionconfig.json");
 const util = require("../foxxo.util.js");
 const fs = require("fs")
 exports.run = (client, message, [link]) => {
@@ -33,5 +33,5 @@ exports.run = (client, message, [link]) => {
         }
     })
     message.delete(4000);
-    fs.writeFile("./ranlionconfig.json", JSON.stringify(lionconfig, null, 4), (err) => console.error);
+    fs.writeFile("./config/lionconfig.json", JSON.stringify(lionconfig, null, 4), (err) => console.error);
 };

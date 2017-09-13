@@ -1,4 +1,4 @@
-const config = require("../config.json");
+const config = require("../config/config.json");
 const util = require("../foxxo.util.js");
 const fs = require("fs")
 exports.run = (client, message, [mention]) => {
@@ -66,7 +66,7 @@ exports.run = (client, message, [mention]) => {
                             if (collectedMsg.first().content === `${pin}`) {
                                 var index = config.ignoredUsers.indexOf(unignoreMember.id);
                                 config.ignoredUsers.splice(index, 1);
-                                fs.writeFile("./config.json", JSON.stringify(config, null, 4), (err) => console.error);
+                                fs.writeFile("./config/config.json", JSON.stringify(config, null, 4), (err) => console.error);
                                 message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully removed ${unignoreMember.tag} | <@${unignoreMember.id}> | ID: ${unignoreMember.id} from the ignore list`));
                             } else {
                                 message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, unignore request canceled`))

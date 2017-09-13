@@ -1,5 +1,5 @@
-const config = require("../config.json");
-const foxconfig = require("../ranfoxconfig.json");
+const config = require("../config/config.json");
+const foxconfig = require("../config/foxconfig.json");
 const util = require("../foxxo.util.js");
 const fs = require("fs")
 exports.run = (client, message, [link]) => {
@@ -33,5 +33,5 @@ exports.run = (client, message, [link]) => {
         }
     })
     message.delete(4000);
-    fs.writeFile("./ranfoxconfig.json", JSON.stringify(foxconfig, null, 4), (err) => console.error);
+    fs.writeFile("./config/foxconfig.json", JSON.stringify(foxconfig, null, 4), (err) => console.error);
 };

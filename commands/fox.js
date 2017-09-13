@@ -1,6 +1,6 @@
 exports.run = (client, message) => {
-    const ranfoxconfig = require("../ranfoxconfig.json");
-    var foximg = ranfoxconfig.foxes[Math.floor(Math.random() * ranfoxconfig.foxes.length)];
+    const foxconfig = require("../config/foxconfig.json");
+    var foximg = foxconfig.foxes[Math.floor(Math.random() * foxconfig.foxes.length)];
     message.channel.send({
         embed: {
             color: message.guild.me.displayColor,

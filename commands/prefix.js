@@ -1,4 +1,4 @@
-const config = require("../config.json");
+const config = require("../config/config.json");
 const util = require("../foxxo.util.js");
 const fs = require("fs")
 exports.run = (client, message, [prefix]) => {

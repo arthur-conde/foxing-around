@@ -1,4 +1,4 @@
-const config = require("../config.json");
+const config = require("../config/config.json");
 const util = require("../foxxo.util.js");
 exports.run = (client, message, [mention, ...reason]) => {
     if (!message.member.hasPermission("BAN_MEMBERS")) {

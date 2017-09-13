@@ -1,5 +1,6 @@
 const util = require("../foxxo.util.js");
 const Discord = require("discord.js");
+const config = require("../config/config.json");
 exports.run = (client, message, args) => {
     var argument = args.shift()
     var permissions = new Discord.Permissions(parseInt(argument)).serialize();

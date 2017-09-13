@@ -1,6 +1,6 @@
 const util = require("../foxxo.util.js");
+const config = require("../config/config.json");
 exports.run = (client, message, [mention, ...reason]) => {
-    const config = require("../config.json");
     if (!mention) {
         message.channel.send({
             embed: {

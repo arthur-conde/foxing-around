@@ -1,5 +1,5 @@
-const config = require("../config.json");
-const lewdjiconfig = require("../lewdjiconfig.json");
+const config = require("../config/config.json");
+const lewdjiconfig = require("../config/lewdjiconfig.json");
 const util = require("../foxxo.util.js");
 const fs = require("fs")
 exports.run = (client, message, [link]) => {
@@ -33,5 +33,5 @@ exports.run = (client, message, [link]) => {
         }
     })
     message.delete(4000);
-    fs.writeFile("./lewdjiconfig.json", JSON.stringify(lewdjiconfig, null, 4), (err) => console.error);
+    fs.writeFile("./config/lewdjiconfig.json", JSON.stringify(lewdjiconfig, null, 4), (err) => console.error);
 };

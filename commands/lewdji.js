@@ -1,5 +1,5 @@
 exports.run = (client, message) => {
-    const lewdjiconfig = require("../lewdjiconfig.json");
+    const lewdjiconfig = require("../config/lewdjiconfig.json");
     var lewdjiimg = lewdjiconfig.lewds[Math.floor(Math.random() * lewdjiconfig.lewds.length)];
     message.channel.send({
         embed: {
