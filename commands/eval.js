@@ -1,5 +1,9 @@
 const Discord = require("discord.js");
 const config = require("../config/config.json");
+const foxconfig = require("../config/foxconfig.json")
+const lionconfig = require("../config/lionconfig.json")
+const lewdjiconfig = require("../config/lewdjiconfig.json")
+const monitorconfig = require("../config/monitorconfig.json")
 const util = require("../foxxo.util.js");
 const u = require("util");
 exports.run = (client, message, args) => {
