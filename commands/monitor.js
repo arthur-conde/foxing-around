@@ -68,21 +68,22 @@ exports.run = (client, message, args) => {
     if (option == "remove" || option == "-") {
         // for every list entry in monitorconfig.voicechannels
         var found = 0
-        for (i in monitorconfig.voicechannels) {
-            if (monitorconfig.voicechannels[i].voiceID == monitorVoice) {
-                //if monitorVoice matches a .voiceID entry remove it, write file, send confirmation
-                message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for <#${monitorconfig.voicechannels[i].voiceID}>, reporting in <#${monitorconfig.voicechannels[i].textID}>`));
-                monitorconfig.voicechannels.splice(i, 1);
-                fs.writeFile("./config/monitorconfig.json", JSON.stringify(monitorconfig, null, 4), (err) => console.error);
-                found = 1;
-            }
-        }
         if (monitorconfig.voicechannels[monitorVoice]) {
             // if it's not a .voiceID match, try to interpret it as array index, remove it, write file, send confirmation
             message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for <#${monitorconfig.voicechannels[monitorVoice].voiceID}>, reporting in <#${monitorconfig.voicechannels[monitorVoice].textID}>`));
             monitorconfig.voicechannels.splice(monitorVoice, 1)
             fs.writeFile("./config/monitorconfig.json", JSON.stringify(monitorconfig, null, 4), (err) => console.error);
             found = 1;
+        } else {
+            for (i in monitorconfig.voicechannels) {
+                if (monitorconfig.voicechannels[i].voiceID == monitorVoice) {
+                    //if monitorVoice matches a .voiceID entry remove it, write file, send confirmation
+                    message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for <#${monitorconfig.voicechannels[i].voiceID}>, reporting in <#${monitorconfig.voicechannels[i].textID}>`));
+                    monitorconfig.voicechannels.splice(i, 1);
+                    fs.writeFile("./config/monitorconfig.json", JSON.stringify(monitorconfig, null, 4), (err) => console.error);
+                    found = 1;
+                }
+            }
         }
         if (found == 0) {
             message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, no list entry found or invalid ID provided`))
