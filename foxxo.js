@@ -5,7 +5,8 @@ const config = require("./config/config.json");
 
 // This loop reads the /events/ folder and attaches each event file to the appropriate event.
 fs.readdir("./events/", (err, files) => {
-    if (err) return console.error(err);
+    // commented for now as to not spam console when other bots are called
+    // if (err) return console.error(err);
     files.forEach(file => {
         let eventFunction = require(`./events/${file}`);
         let eventName = file.split(".")[0];
@@ -29,7 +30,8 @@ client.on("message", message => {
         let commandFile = require(`./commands/${command}.js`); // Looks for a file named as the command being executed
         commandFile.run(client, message, args); // Calls the run function in the command file, passing the client, the message, and all other arguments
     } catch (err) {
-        console.error(err); // If no command is found, log the error
+        // commented for now as to not spam console when other bots are called
+        //console.error(err); // If no command is found, log the error
     }
 });
 
