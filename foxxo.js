@@ -31,7 +31,7 @@ client.on("message", message => {
         commandFile.run(client, message, args); // Calls the run function in the command file, passing the client, the message, and all other arguments
     } catch (err) {
         // commented for now as to not spam console when other bots are called
-        // console.error(err); // If no command is found, log the error
+        //console.error(err); // If no command is found, log the error
     }
 });
 
