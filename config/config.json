@@ -1,7 +1,7 @@
 {
     "token": "",
     "prefix": "!",
-    "owner": [ ],
-    "whitelist": [ ],
-    "blacklist": [ ]
+    "owner": ["83886770768314368","197216567275028480"],
+    "whitelist": ["108241729034952704"],
+    "blacklist": []
 }
