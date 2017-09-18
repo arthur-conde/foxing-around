@@ -53,6 +53,22 @@ exports.run = (client, message, args) => {
             message.delete(4000)
             return;
         }
+        // check if entry is already in monitorconfig, if yes send error and break loop
+        var found = false;
+        for (i in monitorconfig.voicechannels) {
+            if (monitorconfig.voicechannels[i].voiceID == monitorVoice && monitorconfig.voicechannels[i].textID == reportIn) {
+                message.channel.send(util.createEmbed(16426522, `:x: <@${message.member.id}> monitor already exists`))
+                    .then(message => {
+                        message.guild.me.lastMessage.delete(6000);
+                    });
+                message.delete(4000)
+                var found = true;
+                break;
+            }
+        }
+        if (found == true) {
+            return;
+        }
         // add the setup to config
         monitorconfig.voicechannels.push({
             "voiceID": `${monitorVoice}`,
@@ -60,32 +76,32 @@ exports.run = (client, message, args) => {
         });
         //write the file, send confirmation
         fs.writeFile("./config/monitorconfig.json", JSON.stringify(monitorconfig, null, 4), (err) => console.error);
-        message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully added monitor for <#${monitorVoice}>, reporting in <#${reportIn}>`));
+        message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully added monitor for **<#${monitorVoice}>**, reporting in <#${reportIn}>`));
         message.delete(4000)
         return;
     }
     // if option is remove
     if (option == "remove" || option == "-") {
         // for every list entry in monitorconfig.voicechannels
-        var found = 0
+        var found = false;
         if (monitorconfig.voicechannels[monitorVoice]) {
             // if it's not a .voiceID match, try to interpret it as array index, remove it, write file, send confirmation
-            message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for <#${monitorconfig.voicechannels[monitorVoice].voiceID}>, reporting in <#${monitorconfig.voicechannels[monitorVoice].textID}>`));
+            message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for **<#${monitorconfig.voicechannels[monitorVoice].voiceID}>**, reporting in <#${monitorconfig.voicechannels[monitorVoice].textID}>`));
             monitorconfig.voicechannels.splice(monitorVoice, 1)
             fs.writeFile("./config/monitorconfig.json", JSON.stringify(monitorconfig, null, 4), (err) => console.error);
-            found = 1;
+            found = true;
         } else {
             for (i in monitorconfig.voicechannels) {
                 if (monitorconfig.voicechannels[i].voiceID == monitorVoice) {
                     //if monitorVoice matches a .voiceID entry remove it, write file, send confirmation
-                    message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for <#${monitorconfig.voicechannels[i].voiceID}>, reporting in <#${monitorconfig.voicechannels[i].textID}>`));
+                    message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for **<#${monitorconfig.voicechannels[i].voiceID}>**, reporting in <#${monitorconfig.voicechannels[i].textID}>`));
                     monitorconfig.voicechannels.splice(i, 1);
                     fs.writeFile("./config/monitorconfig.json", JSON.stringify(monitorconfig, null, 4), (err) => console.error);
-                    found = 1;
+                    found = true;
                 }
             }
         }
-        if (found == 0) {
+        if (found == false) {
             message.channel.send(util.createEmbed(message.guild.me.displayColor, `:x: <@${message.member.id}>, no list entry found or invalid ID provided`))
                 .then(message => {
                     message.guild.me.lastMessage.delete(6000);
