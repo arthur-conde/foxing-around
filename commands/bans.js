@@ -22,7 +22,7 @@ exports.run = (client, message, [args]) => {
             embed: {
                 title: `${message.guild.name} - Bans`,
                 color: message.guild.me.displayColor,
-                description: `${bannedUsers.join("\r\n")}`,
+                description: `${bannedUsers.length == 0 ? "None" : bannedUsers.join("\r\n")}`,
                 footer: {
                     text: `Request by ${message.member.displayName} (${message.author.id})`,
                     icon_url: message.author.avatarURL
