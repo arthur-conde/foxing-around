@@ -14,7 +14,7 @@ exports.run = (client, message, [prefix]) => {
         return;
     }
     config.prefix = prefix;
-    message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}> succesfully changed prefix to ${prefix}`))
+    message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully changed prefix to ${prefix}`))
     message.delete(4000);
     fs.writeFile("./config.json", JSON.stringify(config, null, 4), (err) => console.error);
     client.user.setGame(`prefix: ${config.prefix}`, "https://www.google.com/")
