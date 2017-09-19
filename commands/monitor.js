@@ -18,7 +18,7 @@ exports.run = (client, message, args) => {
         for (i in monitorconfig.voicechannels) {
             // only push monitorconfig.voicechannels entries for channels on the guild the command is invoked in or true argument is givens
             if (option == "true" || message.guild.channels.get(monitorconfig.voicechannels[i].voiceID)) {
-                listMonitors.push(`[${i}] <#${monitorconfig.voicechannels[i].voiceID}> => <#${monitorconfig.voicechannels[i].textID}>`)
+                listMonitors.push(`[${i}] **<#${monitorconfig.voicechannels[i].voiceID}>** (${client.channels.get(monitorconfig.voicechannels[i].voiceID).guild.name}) => <#${monitorconfig.voicechannels[i].textID}> (${client.channels.get(monitorconfig.voicechannels[i].textID).guild.name})`)
             }
         }
         message.channel.send(util.createEmbed(16426522, `:information_source:  <@${message.member.id}>, Active monitors:\r\n\r\n${listMonitors.length == 0 ? "None" : listMonitors.join("\r\n")}`));
@@ -76,7 +76,7 @@ exports.run = (client, message, args) => {
         });
         //write the file, send confirmation
         fs.writeFile("./config/monitorconfig.json", JSON.stringify(monitorconfig, null, 4), (err) => console.error);
-        message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully added monitor for **<#${monitorVoice}>**, reporting in <#${reportIn}>`));
+        message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully added monitor for **<#${monitorVoice}>** (${client.channels.get(monitorVoice).guild.name}), reporting in <#${reportIn}> (${client.channels.get(reportIn).guild.name})`));
         message.delete(4000)
         return;
     }
@@ -86,7 +86,7 @@ exports.run = (client, message, args) => {
         var found = false;
         if (monitorconfig.voicechannels[monitorVoice]) {
             // if it's not a .voiceID match, try to interpret it as array index, remove it, write file, send confirmation
-            message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for **<#${monitorconfig.voicechannels[monitorVoice].voiceID}>**, reporting in <#${monitorconfig.voicechannels[monitorVoice].textID}>`));
+            message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for **<#${monitorconfig.voicechannels[monitorVoice].voiceID}>** (${client.channels.get(monitorconfig.voicechannels[monitorVoice].voiceID).guild.name}), reporting in <#${monitorconfig.voicechannels[monitorVoice].textID}> (${client.channels.get(monitorconfig.voicechannels[monitorVoice].textID).guild.name})`));
             monitorconfig.voicechannels.splice(monitorVoice, 1)
             fs.writeFile("./config/monitorconfig.json", JSON.stringify(monitorconfig, null, 4), (err) => console.error);
             found = true;
@@ -94,7 +94,7 @@ exports.run = (client, message, args) => {
             for (i in monitorconfig.voicechannels) {
                 if (monitorconfig.voicechannels[i].voiceID == monitorVoice) {
                     //if monitorVoice matches a .voiceID entry remove it, write file, send confirmation
-                    message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for **<#${monitorconfig.voicechannels[i].voiceID}>**, reporting in <#${monitorconfig.voicechannels[i].textID}>`));
+                    message.channel.send(util.createEmbed(16426522, `:white_check_mark: <@${message.member.id}> succesfully removed monitor for **<#${monitorconfig.voicechannels[i].voiceID}>** (${client.channels.get(monitorconfig.voicechannels[i].voiceID).guild.name}), reporting in <#${monitorconfig.voicechannels[i].textID}> (${client.channels.get(monitorconfig.voicechannels[i].textID).guild.name})`));
                     monitorconfig.voicechannels.splice(i, 1);
                     fs.writeFile("./config/monitorconfig.json", JSON.stringify(monitorconfig, null, 4), (err) => console.error);
                     found = true;
