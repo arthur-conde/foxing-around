@@ -12,9 +12,13 @@ exports.run = (client, message, args) => {
 			argObject[argumentParts[0].trim()] = argumentParts[1].trim();
 		}
 	}
+	
+	if (Object.keys(argObject).length == 0)
+		argObject = null;
+	
 	try {
-        // let commandFile = require(`./${path.basename(__filename)}/${command}.js`); 
-        // commandFile.run(client, message, args, argObj);
+		// let commandFile = require(`./${path.basename(__filename)}/${command}.js`); 
+		// commandFile.run(client, message, args, argObj);
 		message.channel.send(`Attempting to invoke './${path.basename(__filename)}/${command}.js'.
 	Values: (client, message, "{util.inspect(args, {depth: null})}", "{util.inspect(argObj, {depth: null})}")`);
     } catch (err) {
