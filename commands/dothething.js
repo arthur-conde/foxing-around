@@ -16,18 +16,16 @@ exports.run = (client, message, args) => {
         argObject = null;
 
     try {
-        message.channel.send(`Attempting to invoke './${path.basename(__filename)}/${command}.js'.
-	    Values: (client, message, "${strArgs}", "${strObj}")`);
-        var commandFile = require(`./${path.basename(__filename)}/${command}.js`);
-        commandFile.run(client, message, args, argObj);
-        var strArgs = util.inspect(args, {
+    	var strArgs = util.inspect(args, {
             depth: null
         });
         var strObj = util.inspect(argObj, {
             depth: null
         });
-        // commented for now as to not spam console when other bots are called
-        console.error(err); // If no command is found, log the error
+        message.channel.send(`Attempting to invoke './${path.basename(__filename)}/${command}.js'.
+	    Values: (client, message, "${strArgs}", "${strObj}")`);
+        var commandFile = require(`./${path.basename(__filename)}/${command}.js`);
+        commandFile.run(client, message, args, argObj);
     } catch (err) {
         console.error(err);
     }
