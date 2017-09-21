@@ -16,16 +16,16 @@ exports.run = (client, message, args) => {
         argObject = null;
 
     try {
-    	var strArgs = util.inspect(args, {
+        var strArgs = util.inspect(args, {
             depth: null
         });
-        var strObj = util.inspect(argObj, {
+        var strObj = util.inspect(argObject, {
             depth: null
         });
-        message.channel.send(`Attempting to invoke './${path.basename(__filename)}/${command}.js'.
+        message.channel.send(`Attempting to invoke './${path.basename(__filename, ".js")}/${command}.js'.
 	    Values: (client, message, "${strArgs}", "${strObj}")`);
-        var commandFile = require(`./${path.basename(__filename)}/${command}.js`);
-        commandFile.run(client, message, args, argObj);
+        var commandFile = require(`./${path.basename(__filename, ".js")}/${command}.js`);
+        commandFile.run(client, message, args, argObject);
     } catch (err) {
         console.error(err);
     }

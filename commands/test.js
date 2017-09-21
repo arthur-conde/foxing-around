@@ -3,11 +3,15 @@ const util = require("../foxxo.util.js");
 const fs = require("fs")
 
 exports.run = (client, message, args) => {
-    console.log("++++++++++++++++++++++++++++++++++++++++")
-    if (/.jpg$|.png$/.test(args[0])) {
-        message.channel.send("that's an image!")
-        return;
-    }
-    message.channel.send("not an image ._.")
-    message.delete()
+    message.guild.createRole({
+            "name": args[0],
+            "color": args[1],
+            "permissions": args[2]
+        })
+        .then(r => {
+            message.channel.send("created.")
+        })
+        .catch(e => {
+            message.channel.send(`\`${e}\``)
+        })
 };
