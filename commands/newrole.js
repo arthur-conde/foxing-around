@@ -442,7 +442,7 @@ exports.run = (client, message, args) => {
                                         }
                                     }
                                     // actually setting permissions here
-                                    role.setPermissions(newPerms.bitfield, `${message.member.user.tag} (${message.member.id})`)
+                                    role.setPermissions(changedPermissions, `${message.member.user.tag} (${message.member.id})`)
                                         .then(r => {
                                             message.channel.send(util.createEmbed(message.guild.me.displayColor, `:white_check_mark: <@${message.member.id}>, denied permissions ${changedPermissions.join(", ")} for ${r} ${invalidStrings.length != 0 ? `, could not find permissions for: ${invalidStrings.join(", ")}`: ""}`))
                                         })
